@@ -1,0 +1,14 @@
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\Assign2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\Assign2.AssemblyInfoInputs.cache
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\Assign2.AssemblyInfo.cs
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\Assign2.csproj.CoreCompileInputs.cache
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\bin\Debug\net8.0\Assign2.exe
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\bin\Debug\net8.0\Assign2.deps.json
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\bin\Debug\net8.0\Assign2.runtimeconfig.json
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\bin\Debug\net8.0\Assign2.dll
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\bin\Debug\net8.0\Assign2.pdb
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\Assign2.dll
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\refint\Assign2.dll
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\Assign2.pdb
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\Assign2.genruntimeconfig.cache
+C:\Users\Bimal.Devasia\Desktop\Assign\Assign2\Assign2\obj\Debug\net8.0\ref\Assign2.dll
