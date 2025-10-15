@@ -1,0 +1,125 @@
+
+Psuedo codes
+
+
+1) Check whether a number is even or odd
+
+    -> if the remainder after dividing the number by 2 is 0 then
+        print "the number is even"
+    -> else then print "the number is odd"
+    
+2) Find the largest of three numbers
+
+
+	-> if first > second and first > third 
+       print "first is greatest"
+    -> if second > first and second > third
+       print "second is greatest"
+    -> else print "third is greatest"
+
+3)Display the multiplication table for any number
+
+  -> take the input and store in number
+  -> create a loop from 1 to 10
+    -> for every iteration do 
+        pro = number * iterator
+        print number + " * " + iterator + " = " + pro
+
+4)Calculate the sum of first N natural numbers
+
+  -> take the input and store in N
+  -> initialize sum = 0
+  -> create a loop from 1 to N
+    -> for every iteration do 
+        sum = sum + iterator
+  -> print sum
+
+
+5)Find the factorial of a number
+
+  -> take the input and store in number
+  -> initialize fact = 1
+  -> create a loop from 1 to number
+    -> for every iteration do
+        fact = fact * iterator
+  -> print fact
+
+6)Calculate the average and grade of 5 subject marks
+
+  -> take the input of 5 subjects and store in sub1, sub2, sub3, sub4, sub5
+  -> total = sub1 + sub2 + sub3 + sub4 + sub5
+  -> average = total / 5
+  -> if average >= 90 then print "A"
+     else if average >= 80 then print "B"
+     else if average >= 70 then print "C"
+     else if average >= 60 then print "D"
+     else print "F"
+
+7)Find the largest and smallest element in an array
+
+    -> take the input of array elements and store in arr
+    -> initialize largest = arr[0]
+    -> initialize smallest = arr[0]
+    -> create a loop from 1 to length of arr
+        -> for every iteration do
+            if arr[iterator] > largest then
+                largest = arr[iterator]
+            if arr[iterator] < smallest then
+                smallest = arr[iterator]
+    -> print largest
+    -> print smallest
+
+
+8)Count how many even and odd numbers are in a list
+
+    -> take the input of list elements and store in lst
+    -> initialize even_count = 0
+    -> initialize odd_count = 0
+    -> create a loop from 0 to length of lst
+        -> for every iteration do
+            if lst[iterator] % 2 == 0 then
+                even_count = even_count + 1
+            else
+                odd_count = odd_count + 1
+    -> print even_count
+    -> print odd_count
+
+9)Generate a pattern like a pyramid or triangle
+
+*
+* *
+* * *
+* * * *
+* * * * *
+
+    -> take the input and store in n
+    -> create a loop from 1 to n with iterator i
+        -> for every iteration do
+            create a  loop from (1 to i )with iterator j
+                -> for every iteration do
+                    print "* "
+
+
+10) Find the second largest number in a list
+
+    -> take the input of list elements and store in lst
+    -> initialize largest = -infinity
+    -> initialize second_largest = -infinity
+    -> create a loop from 0 to length of lst
+        -> for every iteration do
+            if lst[iterator] > largest then
+                second_largest = largest
+                largest = lst[iterator]
+            else if lst[iterator] > second_largest and lst[iterator] != largest then
+                second_largest = lst[iterator]
+    -> print second_largest
+
+
+11) Find the sum of diagonal elements in a 2D matrix
+
+    -> take the input of 2D matrix elements and store in matrix
+    -> initialize sum = 0
+    -> create a loop from 0 to length of matrix with iterator i
+        -> for every iteration do
+            sum = sum + matrix[i][i]
+    -> print sum

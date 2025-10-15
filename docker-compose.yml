@@ -1,0 +1,23 @@
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_container
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=123456789aA
+    ports:
+      - "1433:1433"
+    volumes:
+      - type: 'bind'
+        target: '/var/opt/mssql/data'
+        source: './docker/sqldata/data'
+
+
+
+
+
+
+
+
