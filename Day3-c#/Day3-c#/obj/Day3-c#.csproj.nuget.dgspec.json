@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Assign2\\Assign2\\Assign2.csproj": {}
+    "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Day3-c#\\Day3-c#\\Day3-c#.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Assign2\\Assign2\\Assign2.csproj": {
+    "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Day3-c#\\Day3-c#\\Day3-c#.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Assign2\\Assign2\\Assign2.csproj",
-        "projectName": "Assign2",
-        "projectPath": "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Assign2\\Assign2\\Assign2.csproj",
+        "projectUniqueName": "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Day3-c#\\Day3-c#\\Day3-c#.csproj",
+        "projectName": "Day3-c#",
+        "projectPath": "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Day3-c#\\Day3-c#\\Day3-c#.csproj",
         "packagesPath": "C:\\Users\\Bimal.Devasia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Assign2\\Assign2\\obj\\",
+        "outputPath": "C:\\Users\\Bimal.Devasia\\Desktop\\assgnmet\\Day3-c#\\Day3-c#\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Bimal.Devasia\\AppData\\Roaming\\NuGet\\NuGet.Config",
