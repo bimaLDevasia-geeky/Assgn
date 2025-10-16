@@ -1,0 +1,15 @@
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.AssemblyInfoInputs.cache
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.AssemblyInfo.cs
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.csproj.CoreCompileInputs.cache
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.sourcelink.json
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\bin\Debug\net8.0\Uber.exe
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\bin\Debug\net8.0\Uber.deps.json
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\bin\Debug\net8.0\Uber.runtimeconfig.json
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\bin\Debug\net8.0\Uber.dll
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\bin\Debug\net8.0\Uber.pdb
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.dll
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\refint\Uber.dll
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.pdb
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\Uber.genruntimeconfig.cache
+C:\Users\Bimal.Devasia\Desktop\assgnmet\Uber\obj\Debug\net8.0\ref\Uber.dll
