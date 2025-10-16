@@ -1,0 +1,57 @@
+
+INSERT: Adds three employee records to the table.
+
+CREATE TABLE EMPLOYEES( EmployeeID INT IDENTITY(1000,1) PRIMARY KEY,
+						FirstName VARCHAR(50) NOT NULL,
+						LastName VARCHAR(50) NOT NULL,
+						Department VARCHAR(50) NOT NULL,
+						Salary INT NOT NULL);
+
+INSERT INTO EMPLOYEES values ('Bimal','Devasia','CS',45000)('Justin','Aloshi','WEB',23000),('Jane', 'Smith', 'Human Resources', 75000),
+('Peter', 'Jones', 'IT', 6200);
+
+qn:
+SELECT: Shows different ways to query data:
+Select all columns and rows
+Select specific column
+
+
+SELECT * FROM Employees;
+
+SELECT FirstName, LastName, Salary 
+FROM Employees;
+
+qn:Select with a WHERE clause to filter results
+SELECT * FROM Employees 
+WHERE Department = 'IT';
+
+qn:Write a SELECT statement to retrieve only the FirstName and Salary of all employees.
+SELECT FirstName, Salary 
+FROM Employees;
+
+qn:How would you modify the existing UPDATE statement to give all employees in the IT department a 10% raise
+UPDATE Employees
+SET Salary = Salary * 1.10
+WHERE Department = 'IT';
+
+
+qn:Write a SELECT statement to find the highest salary in the Employees table.How would you add a new column named "HireDate" of type DATE to the Employees table?
+ALTER TABLE Employees
+ADD HireDate DATE;
+
+qn: How would you modify the table to ensure that the Salary column cannot contain negative values?
+INSERT INTO Employees (FirstName, LastName, Department, Salary)
+VALUES ('Sarah', 'Brown', 'Marketing', 72000.00);
+
+
+qn:How would you modify the table to ensure that the Salary column cannot contain negative values?
+INSERT INTO Employees (FirstName, LastName, Department, Salary)
+ADD CONSTRAINT CHK_SalaryPositive CHECK (Salary >= 0);
+
+
+
+qn:Write an ALTER TABLE statement to add an "Email" column to the Employees table with a UNIQUE constraint that allows NULL values
+
+
+ALTER TABLE Employees
+ADD Email NVARCHAR(100) NULL UNIQUE;
