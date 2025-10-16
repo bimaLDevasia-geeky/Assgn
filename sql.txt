@@ -44,7 +44,7 @@ qn:How would you add a new column named "HireDate" of type DATE to the Employees
 ALTER TABLE Employees
 ADD HireDate DATE;
 
-qn: How would you modify the table to ensure that the Salary column cannot contain negative values?
+qn: add data
 INSERT INTO Employees (FirstName, LastName, Department, Salary)
 VALUES ('Sarah', 'Brown', 'Marketing', 72000.00);
 
