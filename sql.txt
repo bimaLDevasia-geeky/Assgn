@@ -35,7 +35,12 @@ SET Salary = Salary * 1.10
 WHERE Department = 'IT';
 
 
-qn:Write a SELECT statement to find the highest salary in the Employees table.How would you add a new column named "HireDate" of type DATE to the Employees table?
+
+qn:Write a SELECT statement to find the highest salary in the Employees table.
+SELECT MAX(Salary) AS HighestSalary
+FROM Employees;
+
+qn:How would you add a new column named "HireDate" of type DATE to the Employees table?
 ALTER TABLE Employees
 ADD HireDate DATE;
 
