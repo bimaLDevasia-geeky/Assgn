@@ -44,18 +44,20 @@ qn:How would you add a new column named "HireDate" of type DATE to the Employees
 ALTER TABLE Employees
 ADD HireDate DATE;
 
-qn: How would you modify the table to ensure that the Salary column cannot contain negative values?
+qn: add data
 INSERT INTO Employees (FirstName, LastName, Department, Salary)
 VALUES ('Sarah', 'Brown', 'Marketing', 72000.00);
 
 
 qn:How would you modify the table to ensure that the Salary column cannot contain negative values?
-INSERT INTO Employees (FirstName, LastName, Department, Salary)
+ALTER TABLE Employees
 ADD CONSTRAINT CHK_SalaryPositive CHECK (Salary >= 0);
 
 
 
 qn:Write an ALTER TABLE statement to add an "Email" column to the Employees table with a UNIQUE constraint that allows NULL values
+
+
 
 
 ALTER TABLE Employees
