@@ -1,0 +1,55 @@
+
+1) Create a table students and insert names in malayalam
+
+insert into students(name) values(N'അജയ്'),(N'അനിൽ'),(N'ബിനോയ്');
+
+
+2) Retrieve all employees who work in Sales, Marketing, or IT departments.
+
+select * from EMPLOYEES where Department in ('Sales','Marketing','IT');
+
+
+3) Find all employees with salaries ranging from $50,000 to $75,000 (inclusive).
+
+select * from EMPLOYEES where salary between 50000 and 75000;
+
+
+4) List all employees whose last name begins with the letter 'S'.
+
+select * from EMPLOYEES where LastName like 'S%';
+
+5) Display all employees with exactly five letters in their first name
+
+select * from EMPLOYEES where LEN(FirstName) = 5;
+
+
+6) Find employees whose last name starts with either 'B', 'R', or 'S'.
+
+select * from EMPLOYEES where LastName like '[BRS]%';
+
+
+7) Retrieve all employees whose first name begins with any letter from 'A' through 'M'
+
+select * from EMPLOYEES where FirstName like '[A-M]%';
+
+
+8) List employees whose last name doesn't start with a vowel (A, E, I, O, U).
+
+select * from EMPLOYEES where LastName not like '[AEIOU]%';
+
+9) Identify employees earning more than $80,000 annually. 
+
+select * from EMPLOYEES where salary >80000;
+
+10) Find employees who joined the company before 2020 
+
+select * from EMPLOYEES where Year(HireDate)<'2020';
+
+11) List all employees not named 'John' (first name)
+select * from EMPLOYEEs where  FirstName <> 'John';
+
+12) Identify Marketing department employees earning $60,000 or less who were hired after June 30, 2019 
+select * from employees where Department='marketing' and salary <= 60000 and HireDate > '2019-06-30';
+
+13) Find employees whose first name contains the letters 'an' anywhere and ends with 'e'.
+select * from employees where firstName like '%an%e'
