@@ -1,2 +1,37 @@
 /docker
 /.vs/
+
+ Ignore build outputs for all projects
+**/bin/
+**/obj/
+
+# Ignore Visual Studio folders
+**/.vs/
+
+# Ignore user-specific and IDE files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore temporary files
+*.log
+*.tmp
+*.cache
+*.pdb
+*.dbmdl
+
+# Ignore publish folders (if any)
+**/publish/
+**/AppPackages/
+**/BundleArtifacts/
+
+# Ignore build configuration files
+*.launchSettings.json
+
+# Ignore Rider / JetBrains IDE stuff (if you use Rider)
+.idea/
+
+# Ignore Mac or Windows metadata
+.DS_Store
+Thumbs.db
