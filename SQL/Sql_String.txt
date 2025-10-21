@@ -1,0 +1,215 @@
+String Functions
+
+1. Extract the middle 3 characters from the string 'ABCDEFG'.
+
+
+answer
+=> Select substring('ABCDEFG',len('ABCDEFG')/2,3) as middle
+
+
+2. From a table 'Employees' with a column 'FullName', write a query to extract the first name 
+(assuming it's always the first word before a space)
+
+answer
+    (Note : MY employee table had columns first and last name so i made a temporary table  )
+=> select FirstName+' '+LastName As FullName INTO #temptable from EMPLOYEES;
+   select FullName,LEFT(FullName,CHARINDEX(' ',FullName)-1) as firstname from #temptable; 
+
+
+3. Extract the first 5 characters from the string 'SQL Server 2022'.
+
+
+answer 
+=> select LEFT('SQL Server 2022',5) as firstcharacter; 
+
+
+4.From a 'Products' table with a 'ProductCode' column, write a query to get the first 3 characters of each product code.
+
+answer 
+=> select LEFT(ProductCode,3) As firstthree from Products;
+
+
+5. Extract the last 4 characters from the string 'ABCDEFGHIJKL'.
+answer
+=> select RIGHT('ABCDEFGHIJKL',4) as lastFour;
+
+
+6. From an 'Orders' table with an 'OrderID' column (format: ORD-YYYY-NNNN), 
+write a query to extract just the numeric portion at the end.
+
+answer
+=>  select RIGHT(OrderID, CHARINDEX('-',REVERSE(OrderId))-1) as numerical from Orders;
+
+
+7.Write a query to find the length of the string 'SQL Server Functions'.
+answer 
+=>  select len('SQL Server Functions') as length;
+
+
+8.  From a 'Customers' table, find customers whose names are longer than 20 characters.
+
+answer 
+=>  select * from Customers where len(name)>20;
+
+9. Compare the results of character count and byte count for the string 'SQL Server' with a trailing space.
+
+answer 
+=>  declare @var1 VARCHAR(25) = 'SQL Server ' ;
+
+     select len(@var1) as CharacterCount ;  
+
+     CharacterCount
+        10
+
+     select DATALENGTH(@var1) as ByteCount ;
+
+     ByteCount
+        11
+
+10. Write a query to find the byte count of an empty string and explain the result.
+
+answer
+=> select DATALENGTH('') as LenghtOFEmpty;
+
+it shows zero since it is a empty string  and if it was null then it will show null
+
+
+11. Find the position of 'Server' in the string 'Microsoft SQL Server'.
+
+answer 
+=> select CHARINDEX('Server','Microsoft SQL Server') as ServerIndex;
+
+
+12 . From an 'Emails' table, write a query to extract the domain name from email addresses.
+
+answer 
+=> select RIGHT(email,charIndex('@',reverse(email))-1) as domainName from Emails;
+
+
+13. Find the position of the first number in the string 'ABC123DEF456'.
+answer
+=>   select PATINDEX('%[0-9]%','ABC123DEF456') as firstNumberIndex;
+
+
+14. Write a query to find all product names from a 'Products' table that contain a number.
+answer=>  select * from Products where name LIKE '%[0-9]%';
+
+15.Join the strings 'SQL', 'Server', and '2022' with spaces between them.
+
+answer 
+=>   select 'SQL'+' ' + 'Server' + ' ' +'2022' ;
+
+16.  From 'Employees' table with 'FirstName' and 'LastName' columns, create a 'FullName' column.
+
+answer
+=> UPDATE Employees
+SET FullName = CONCAT(FirstName, ' ', LastName);
+
+17. Join the array ('SQL', 'Server', '2022') with a hyphen as the separator.
+
+answer
+=> select concat('SQL','-', 'Server','-','2022');
+
+18.  From an 'Addresses' table, combine 'Street', 'City', 'State', and 'ZIP' columns into a single address string.
+answer=> SELECT CONCAT(Street, ', ', City, ', ', State, ' ', ZIP) AS FullAddress
+FROM Addresses;
+
+19.  Change all occurrences of 'a' to 'e' in the string 'database management'.
+answer
+=> select replace('database management','a','e') as replaceString;
+
+20. From a 'Products' table, write a query to replace all spaces in product names with underscores.
+answer
+=> select replace(name,' ','_') as replaced from Products;
+
+21.Create a string of 10 asterisks (*).
+
+answer
+=> select REPLICATE('*',10) as replecated;
+
+22. Write a query to pad all product codes in a 'Products' table to a length of 10 characters with leading zeros
+answer=>select *,RIGHT(replicate('0',10)+ProductCode,10) from Products;
+
+23. Insert the string 'New ' at the beginning of 'York City'.
+answer
+=>SELECT 'New ' + 'York City' AS ResultString;
+
+24. . From an 'Emails' table, mask the username part of email addresses, showing only the first and last characters.
+
+answer=>
+SELECT 
+    Email,
+    CASE 
+        WHEN CHARINDEX('@', Email) > 2 THEN
+            CONCAT(
+                LEFT(Email, 1),
+                REPLICATE('*', CHARINDEX('@', Email) - 3),
+                RIGHT(Email, CHARINDEX('@', reverse(Email)) + 1)
+            )
+        WHEN CHARINDEX('@', Email) = 2 THEN
+            CONCAT(LEFT(Email, 1), SUBSTRING(Email, CHARINDEX('@', Email), LEN(Email)))
+        ELSE Email
+    END AS MaskedEmail
+FROM Emails;
+
+
+25. Convert the string 'sql server' to uppercase.
+answer
+=> 
+select UPPER('sql server') as capitalised ;
+
+26.Write a query to convert all customer names in a 'Customers' table to uppercase.
+
+answer
+=> update Customers  set name = Upper(name) ;
+
+27. . Convert the string 'SQL SERVER' to lowercase.
+answer=> select lower('SQL SERVER') as lowerCAse;
+
+28. From a 'Products' table, write a query to convert all product descriptions to lowercase.
+answers
+=> update Products  set productDesc = Lower(productDesc);
+
+29.. Remove trailing spaces from the string 'SQL Server    '.
+
+answer
+=> SELECT RTRIM('SQL Server     ') AS TrimmedString;
+
+
+30.Write a query to remove trailing spaces from all email addresses in an 'Employees' table.
+
+answer
+=> UPDATE Employees
+SET Email = TRIM(Email)
+WHERE
+    Email LIKE ' %' OR Email LIKE '% ';
+
+31. Remove leading spaces from the string '   SQL Server'.
+answer
+=> update LTRIM('   SQL Server') as trimedstring;
+
+32.  From a 'Comments' table, write a query to remove leading spaces from all comment texts.
+
+answer
+=> Update Comments set text= TRIM(text) where text like ' %' or text like '% ';
+
+33.Display the current date in the format 'dd-MM-yyyy'.
+answer
+=> select FORMAT(getdate(),'dd-MM-yyyy');
+
+34.From an 'Orders' table with an 'OrderTotal' column, display the total as a currency with 2 decimal places.
+answer
+=> select ordertotal ,format(ordertotal,C,'en-In') as formattedText from Orders;
+
+35. Separate the string 'apple,banana,cherry' into individual fruits.
+answer=> select value as Fruits from string_split('apple,banana,cherry',',');
+
+36. From a 'Skills' table with a 'SkillList' column containing comma-separated skills,
+ write a query to create a row for each individual skill.
+ answers=> 
+ SELECT 
+    s.EmployeeID,  -- or whatever your identifier column is
+    s.SkillList,
+    TRIM(ss.value) AS Skill
+FROM Skills s
+CROSS APPLY STRING_SPLIT(s.SkillList, ',') ss;
