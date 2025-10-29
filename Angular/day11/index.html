@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="index.js"></script>
+</head>
+<body style="height: auto;">
+
+
+    
+
+    <div style="display: flex; flex-direction: column; align-items: center;gap: 3rem;">
+
+    
+    <div >
+
+        <h1>Table</h1>
+    <div>
+        <h2 align="center">Indian States Information</h2>
+    </div>
+    <Table border="1" bordercolor="black" cellspacing="0" width="30%" height="80%" cellpadding="5">
+        <tr bgcolor="Grey" >
+            <th>State</th>
+            <th>Chief Minister</th>
+            <th>Capital</th>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Andhra </td>
+            <td>Jagan</td>
+            <td>Amaravati</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Telangana</td>
+            <td>KCR</td>
+            <td>Hyderabad</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Karnataka</td>
+            <td>Bommai</td>
+            <td>Bengaluru</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Maharashtra</td>
+            <td>Uddhav Thackeray</td>
+            <td>Mumbai</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Kerala</td>
+            <td>Pinarayi </td>
+            <td>Trivandrum</td>
+        </tr>
+    </Table>
+    </div>
+
+    <!-- link -->
+    <div >
+        <h1>Link</h1>
+        <a href="https://www.google.com">Opens in the same page</a> <br>
+        <a href="https://www.google.com" target="_blank">Opens in a new tab</a>
+    </div>
+
+    <!-- unordered list and ordered list -->
+
+    <div>
+        <h1>unordered</h1>
+        <ul type="none" style="width: 300px;text-align: center;font-size: 30px;display: flex;flex-direction: column;gap:5px;">
+            <li style="background-color: lightgrey;padding: 2px;">one</li>
+            <li style="background-color: black; color: white;padding: 2px;">two</li>
+            <li style="background-color: lightgrey;padding: 2px;">three</li>
+            <li style="background-color: black; color: white;padding: 2px;">four</li>
+            <li style="background-color: lightgrey;padding: 2px;">five</li>
+            <li style="background-color: black; color: white;padding: 2px;">six</li>
+        </ul>
+
+        <br>
+        <h1>Nested</h1>
+        <br>
+
+        <ul type="none" style="width: 300px;text-align: center;font-size: 30px;display: flex;flex-direction: column;gap:5px;">
+            <li style="background-color: lightgrey;padding: 2px;">1</li>
+            <li>
+                <ul style="width: 300px;display: flex;flex-direction: column;gap:5px;" type="none"   >
+                    <li style="background-color: lightgrey;padding: 2px;">1.1</li>
+                    <li style="background-color: lightgrey;padding: 2px;">1.2</li>
+                </ul>
+            </li>
+            <li style="background-color: lightgrey;padding: 2px;">2</li>
+            <li><ul style="width: 300px;display: flex;flex-direction: column;gap:5px;" type="none"   >
+                <li style="background-color: lightgrey;padding: 2px;">2.1</li>
+                <li style="background-color: lightgrey;padding: 2px;">2.2</li>
+            </ul></li>
+        </ul>
+    </div>
+
+
+    <div>
+        <h1>Alert</h1>
+        <button style="padding: 3px;padding-left: 5px;padding-right: 5px; font-size: 20px;" onclick="AlertMe()">
+            Alert Me
+        </button>
+    </div>
+
+
+    <div>
+        <h1>leap year or no</h1>
+
+      
+         <input type="text" name="" id="yearInput" placeholder="Enter Year">
+           <button onclick="checkLeapYear(document.getElementById('yearInput').value)">
+            Check Leap Year
+           </button>
+    </div>
+
+</div>
+</body>
+</html>
