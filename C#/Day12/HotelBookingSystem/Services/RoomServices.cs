@@ -29,7 +29,7 @@ namespace HotelBookingSystem.Services
             await _context.Rooms.AddAsync(room);
             await _context.SaveChangesAsync();
 
-            await LoadRoomRelations(room);
+          
             return CreateRoomResponseDTO(room);
         }
 
@@ -67,15 +67,7 @@ namespace HotelBookingSystem.Services
             return rooms.Select(room => CreateRoomResponseDTO(room));
         }
 
-                private async Task LoadRoomRelations(Room room)
-        {
-            await _context.Entry(room)
-                .Reference(r => r.RoomType)
-                .LoadAsync();
-            await _context.Entry(room)
-                .Reference(r => r.Hotel)
-                .LoadAsync();
-        }
+                
 
         private RoomResponseDTO CreateRoomResponseDTO(Room room)
         {
@@ -106,7 +98,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<IEnumerable<RoomResponseDTO>> GetAvailableRooms(DateTime checkIn, DateTime checkOut, int hotelId)
         {
-            var rooms = await _context.Rooms
+            List<Room> rooms = await _context.Rooms
                 .Include(r => r.RoomType)
                 .Include(r => r.Hotel)
                 .Include(r => r.Bookings)
@@ -122,8 +114,8 @@ namespace HotelBookingSystem.Services
 
         public async Task RemoveRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-            if (room == null)
+            Room room = await _context.Rooms.FindAsync(id);
+            if (room is null)
                 throw new KeyNotFoundException("Room not found");
 
             // Check if room has any active bookings
@@ -141,12 +133,12 @@ namespace HotelBookingSystem.Services
 
         public async Task<RoomResponseDTO> UpdateRoom(int id, RoomUpdateDTO roomDto)
         {
-            var room = await _context.Rooms
+            Room room = await _context.Rooms
                 .Include(r => r.RoomType)
                 .Include(r => r.Hotel)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            if (room == null)
+            if (room is null)
                 throw new KeyNotFoundException("Room not found");
 
             room.RoomNumber = roomDto.RoomNumber;
@@ -160,12 +152,12 @@ namespace HotelBookingSystem.Services
 
         public async Task<RoomResponseDTO> UpdateRoomStatus(int id, RoomStatus status)
         {
-            var room = await _context.Rooms
+            Room room = await _context.Rooms
                 .Include(r => r.RoomType)
                 .Include(r => r.Hotel)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            if (room == null)
+            if (room is null)
                 throw new KeyNotFoundException("Room not found");
 
             room.Status = status;

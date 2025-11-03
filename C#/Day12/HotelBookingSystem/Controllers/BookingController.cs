@@ -7,21 +7,16 @@ namespace HotelBookingSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BookingController : ControllerBase
+    public class BookingController(IBooking _bookingservices) : ControllerBase
     {
-        private readonly IBooking _services;
 
-        public BookingController(IBooking services)
-        {
-            _services = services;
-        }
 
         [HttpPost]
         public async Task<ActionResult<BookingResponseDTO>> CreateBooking(BookingCreateDTO booking)
         {
             try
             {
-                var newBooking = await _services.CreateBooking(booking);
+                BookingResponseDTO newBooking = await _bookingservices.CreateBooking(booking);
                 return CreatedAtAction(nameof(GetBookingById), new { id = newBooking.Id }, newBooking);
             }
             catch (InvalidOperationException ex)
@@ -43,7 +38,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var bookings = await _services.GetAllBookings();
+                var bookings = await _bookingservices.GetAllBookings();
                 return Ok(bookings);
             }
             catch (Exception)
@@ -57,7 +52,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var booking = await _services.GetBookingById(id);
+                var booking = await _bookingservices.GetBookingById(id);
                 return Ok(booking);
             }
             catch (KeyNotFoundException)
@@ -75,7 +70,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var bookings = await _services.GetBookingsByCustomer(customerId);
+                var bookings = await _bookingservices.GetBookingsByCustomer(customerId);
                 return Ok(bookings);
             }
             catch (Exception)
@@ -89,7 +84,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var updatedBooking = await _services.UpdateBooking(id, booking);
+                var updatedBooking = await _bookingservices.UpdateBooking(id, booking);
                 return Ok(updatedBooking);
             }
             catch (KeyNotFoundException)
@@ -111,7 +106,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var updatedBooking = await _services.UpdateBookingStatus(id, status);
+                var updatedBooking = await _bookingservices.UpdateBookingStatus(id, status);
                 return Ok(updatedBooking);
             }
             catch (KeyNotFoundException)
@@ -129,7 +124,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                await _services.CancelBooking(id);
+                await _bookingservices.CancelBooking(id);
                 return Ok(new { Message = "Booking cancelled successfully" });
             }
             catch (KeyNotFoundException)

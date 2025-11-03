@@ -43,18 +43,7 @@ namespace HotelBookingSystem.Services
             }
 
             // Load related entities for response
-            await _context.Entry(booking)
-                .Reference(b => b.Customer)
-                .LoadAsync();
-            await _context.Entry(booking)
-                .Reference(b => b.Room)
-                .LoadAsync();
-            await _context.Entry(booking.Room)
-                .Reference(r => r.RoomType)
-                .LoadAsync();
-            await _context.Entry(booking.Room)
-                .Reference(r => r.Hotel)
-                .LoadAsync();
+           
 
             return await CreateBookingResponseDTO(booking);
         }
@@ -113,7 +102,7 @@ namespace HotelBookingSystem.Services
                         PhoneNumber = booking.Room.Hotel.PhoneNumber
                     }
                 },
-                Payment = booking.Payment != null ? new PaymentResponseDTO
+                Payment = booking.Payment is not null ? new PaymentResponseDTO
                 {
                     Id = booking.Payment.Id,
                     BookingId = booking.Payment.BookingId,

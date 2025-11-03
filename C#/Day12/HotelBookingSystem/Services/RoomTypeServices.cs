@@ -36,7 +36,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<IEnumerable<RoomTypeResponseDTO>> GetAllRoomTypes()
         {
-            var roomTypes = await _context.RoomTypes.ToListAsync();
+            List<RoomType> roomTypes = await _context.RoomTypes.ToListAsync();
             return roomTypes.Select(rt => new RoomTypeResponseDTO
             {
                 Id = rt.Id,
@@ -48,8 +48,8 @@ namespace HotelBookingSystem.Services
 
         public async Task<RoomTypeResponseDTO> GetRoomTypeById(int id)
         {
-            var roomType = await _context.RoomTypes.FindAsync(id);
-            if (roomType == null)
+            RoomType roomType = await _context.RoomTypes.FindAsync(id);
+            if (roomType is null)
                 throw new KeyNotFoundException("RoomType not found");
 
             return new RoomTypeResponseDTO
@@ -63,8 +63,8 @@ namespace HotelBookingSystem.Services
 
         public async Task RemoveRoomType(int id)
         {
-            var roomType = await _context.RoomTypes.FindAsync(id);
-            if (roomType == null)
+            RoomType roomType = await _context.RoomTypes.FindAsync(id);
+            if (roomType is null)
                 throw new KeyNotFoundException("RoomType not found");
             _context.RoomTypes.Remove(roomType);
             await _context.SaveChangesAsync();
@@ -72,8 +72,8 @@ namespace HotelBookingSystem.Services
 
         public async Task<RoomTypeResponseDTO> UpdateRoomType(int id, RoomTypeUpdateDTO roomTypeDto)
         {
-            var existingRoomType = await _context.RoomTypes.FindAsync(id);
-            if (existingRoomType == null)
+            RoomType existingRoomType = await _context.RoomTypes.FindAsync(id);
+            if (existingRoomType is null)
                 throw new KeyNotFoundException("RoomType not found");
 
             existingRoomType.TypeName = roomTypeDto.TypeName;

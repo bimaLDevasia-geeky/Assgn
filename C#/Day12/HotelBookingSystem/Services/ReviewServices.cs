@@ -18,14 +18,14 @@ namespace HotelBookingSystem.Services
         {
             // Verify if hotel and customer exist
             var hotel = await _context.Hotels.FindAsync(review.HostelId);
-            if (hotel == null)
+            if (hotel is null)
                 throw new KeyNotFoundException("Hotel not found");
 
             var customer = await _context.Customers.FindAsync(review.CustomerId);
-            if (customer == null)
+            if (customer is null)
                 throw new KeyNotFoundException("Customer not found");
 
-            review.ReviewDate = DateTime.Now;
+            review.ReviewDate = DateTime.UtcNow;
             await _context.Reviews.AddAsync(review);
             await _context.SaveChangesAsync();
             return review;
@@ -84,8 +84,8 @@ namespace HotelBookingSystem.Services
 
         public async Task RemoveReview(int id)
         {
-            var review = await _context.Reviews.FindAsync(id);
-            if (review == null)
+            Review review = await _context.Reviews.FindAsync(id);
+            if (review is null)
                 throw new KeyNotFoundException("Review not found");
 
             _context.Reviews.Remove(review);
@@ -94,7 +94,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<Review> UpdateReview(Review review)
         {
-            var existingReview = await _context.Reviews.FindAsync(review.Id);
+            Review existingReview = await _context.Reviews.FindAsync(review.Id);
             if (existingReview == null)
                 throw new KeyNotFoundException("Review not found");
 
