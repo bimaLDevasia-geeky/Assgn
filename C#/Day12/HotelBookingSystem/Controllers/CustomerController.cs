@@ -7,14 +7,9 @@ namespace HotelBookingSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CustomerController : ControllerBase
+    public class CustomerController(ICustomer _services) : ControllerBase
     {
-        private readonly ICustomer _services;
-
-        public CustomerController(ICustomer services)
-        {
-            _services = services;
-        }
+       
 
         [HttpPost]
         public async Task<ActionResult<Customer>> AddCustomer(Customer customer)

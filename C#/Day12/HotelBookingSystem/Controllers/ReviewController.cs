@@ -7,14 +7,9 @@ namespace HotelBookingSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ReviewController : ControllerBase
+    public class ReviewController(IReview _services) : ControllerBase
     {
-        private readonly IReview _services;
-
-        public ReviewController(IReview services)
-        {
-            _services = services;
-        }
+       
 
         [HttpPost]
         public async Task<ActionResult<Review>> AddReview(Review review)

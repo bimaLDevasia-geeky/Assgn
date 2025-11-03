@@ -38,7 +38,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var bookings = await _bookingservices.GetAllBookings();
+                IEnumerable<BookingResponseDTO> bookings = await _bookingservices.GetAllBookings();
                 return Ok(bookings);
             }
             catch (Exception)
@@ -52,7 +52,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var booking = await _bookingservices.GetBookingById(id);
+                BookingResponseDTO booking = await _bookingservices.GetBookingById(id);
                 return Ok(booking);
             }
             catch (KeyNotFoundException)
@@ -70,7 +70,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var bookings = await _bookingservices.GetBookingsByCustomer(customerId);
+                IEnumerable<BookingResponseDTO> bookings = await _bookingservices.GetBookingsByCustomer(customerId);
                 return Ok(bookings);
             }
             catch (Exception)

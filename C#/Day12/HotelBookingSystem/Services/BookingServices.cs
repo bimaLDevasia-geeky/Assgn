@@ -36,13 +36,13 @@ namespace HotelBookingSystem.Services
 
             // Update room status
             var room = await _context.Rooms.FindAsync(booking.RoomId);
-            if (room != null)
+            if (room is not null)
             {
                 room.Status = RoomStatus.Booked;
                 await _context.SaveChangesAsync();
             }
 
-            // Load related entities for response
+           
            
 
             return await CreateBookingResponseDTO(booking);
@@ -50,7 +50,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<IEnumerable<BookingResponseDTO>> GetAllBookings()
         {
-            var bookings = await _context.Bookings
+            List<Booking> bookings = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
@@ -116,7 +116,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<BookingResponseDTO> GetBookingById(int id)
         {
-            var booking = await _context.Bookings
+            Booking booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
@@ -125,7 +125,7 @@ namespace HotelBookingSystem.Services
                 .Include(b => b.Payment)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (booking == null)
+            if (booking is null)
                 throw new KeyNotFoundException("Booking not found");
 
             return await CreateBookingResponseDTO(booking);
@@ -133,7 +133,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<IEnumerable<BookingResponseDTO>> GetBookingsByCustomer(int customerId)
         {
-            var bookings = await _context.Bookings
+            List<Booking> bookings = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
@@ -148,7 +148,7 @@ namespace HotelBookingSystem.Services
 
         private async Task<IEnumerable<BookingResponseDTO>> GetBookingsByHotel(int hotelId)
         {
-            var bookings = await _context.Bookings
+            List<Booking> bookings = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
@@ -163,7 +163,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<BookingResponseDTO> UpdateBooking(int id, BookingUpdateDTO bookingDto)
         {
-            var existingBooking = await _context.Bookings
+            Booking existingBooking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
@@ -179,7 +179,7 @@ namespace HotelBookingSystem.Services
             if (existingBooking.CheckInTime != bookingDto.CheckInTime || 
                 existingBooking.CheckOutTime != bookingDto.CheckOutTime)
             {
-                var isAvailable = await IsRoomAvailable(
+                bool isAvailable = await IsRoomAvailable(
                     existingBooking.RoomId,
                     bookingDto.CheckInTime,
                     bookingDto.CheckOutTime);
@@ -189,7 +189,7 @@ namespace HotelBookingSystem.Services
             }
 
             // Calculate nights and total amount
-            var nights = (bookingDto.CheckOutTime - bookingDto.CheckInTime).Days;
+            int nights = (bookingDto.CheckOutTime - bookingDto.CheckInTime).Days;
             if (nights <= 0)
                 throw new InvalidOperationException("Check-out time must be after check-in time");
 
@@ -214,7 +214,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<BookingResponseDTO> UpdateBookingStatus(int id, BookingStatus status)
         {
-            var booking = await _context.Bookings
+            Booking booking = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
@@ -223,7 +223,7 @@ namespace HotelBookingSystem.Services
                 .Include(b => b.Payment)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (booking == null)
+            if (booking is null)
                 throw new KeyNotFoundException("Booking not found");
 
             booking.Status = status;
@@ -249,11 +249,11 @@ namespace HotelBookingSystem.Services
 
         private async Task<bool> IsRoomAvailable(int roomId, DateTime checkIn, DateTime checkOut)
         {
-            var room = await _context.Rooms
+            Room room = await _context.Rooms
                 .Include(r => r.Bookings)
                 .FirstOrDefaultAsync(r => r.Id == roomId);
 
-            if (room == null)
+            if (room is null)
                 throw new KeyNotFoundException("Room not found");
 
             if (room.Status != RoomStatus.Available)

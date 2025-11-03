@@ -22,7 +22,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var newRoom = await _services.AddRoom(room);
+                RoomResponseDTO newRoom = await _services.AddRoom(room);
                 return CreatedAtAction(nameof(GetRoomById), new { id = newRoom.Id }, newRoom);
             }
             catch (DbUpdateException)
@@ -40,7 +40,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var rooms = await _services.GetAllRooms();
+                IEnumerable<RoomResponseDTO> rooms = await _services.GetAllRooms();
                 return Ok(rooms);
             }
             catch (Exception)
@@ -54,7 +54,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var room = await _services.GetRoomById(id);
+                RoomResponseDTO room = await _services.GetRoomById(id);
                 return Ok(room);
             }
             catch (KeyNotFoundException)
@@ -72,7 +72,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var rooms = await _services.GetRoomsByHotel(hotelId);
+                IEnumerable<RoomResponseDTO> rooms = await _services.GetRoomsByHotel(hotelId);
                 return Ok(rooms);
             }
             catch (Exception)
@@ -86,7 +86,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var rooms = await _services.GetAvailableRooms(checkIn, checkOut, hotelId);
+                IEnumerable<RoomResponseDTO> rooms = await _services.GetAvailableRooms(checkIn, checkOut, hotelId);
                 return Ok(rooms);
             }
             catch (Exception)
@@ -100,7 +100,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var updatedRoom = await _services.UpdateRoom(id, room);
+                RoomResponseDTO updatedRoom = await _services.UpdateRoom(id, room);
                 return Ok(updatedRoom);
             }
             catch (KeyNotFoundException)
@@ -118,7 +118,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var updatedRoom = await _services.UpdateRoomStatus(id, status);
+                RoomResponseDTO updatedRoom = await _services.UpdateRoomStatus(id, status);
                 return Ok(updatedRoom);
             }
             catch (KeyNotFoundException)

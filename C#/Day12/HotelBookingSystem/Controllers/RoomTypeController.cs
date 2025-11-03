@@ -22,7 +22,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var roomType = await _services.AddRoomType(request);
+                RoomTypeResponseDTO roomType = await _services.AddRoomType(request);
                 return CreatedAtAction(nameof(GetRoomTypeById), new { id = roomType.Id }, roomType);
             }
             catch (DbUpdateException)
@@ -40,7 +40,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var roomTypes = await _services.GetAllRoomTypes();
+                IEnumerable<RoomTypeResponseDTO> roomTypes = await _services.GetAllRoomTypes();
                 return Ok(roomTypes);
             }
             catch (Exception)
@@ -54,7 +54,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var roomType = await _services.GetRoomTypeById(id);
+                RoomTypeResponseDTO roomType = await _services.GetRoomTypeById(id);
                 return Ok(roomType);
             }
             catch (KeyNotFoundException)
@@ -72,7 +72,7 @@ namespace HotelBookingSystem.Controllers
         {
             try
             {
-                var updatedRoomType = await _services.UpdateRoomType(id, roomType);
+                RoomTypeResponseDTO updatedRoomType = await _services.UpdateRoomType(id, roomType);
                 return Ok(updatedRoomType);
             }
             catch (KeyNotFoundException)

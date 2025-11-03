@@ -8,15 +8,9 @@ namespace HotelBookingSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HotelController : ControllerBase
+    public class HotelController(IHotelServices _services) : ControllerBase
     {
-        private readonly IHotelServices _services;
-
-        public HotelController(IHotelServices services)
-        {
-            _services = services;
-        }
-
+        
         [HttpGet]
         public async Task<ActionResult> GetHotels()
         {

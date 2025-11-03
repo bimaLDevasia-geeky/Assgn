@@ -17,8 +17,8 @@ namespace HotelBookingSystem.Services
         public async Task<Employee> AddEmployee(Employee employee)
         {
             // Verify if hotel exists
-            var hotel = await _context.Hotels.FindAsync(employee.HotelId);
-            if (hotel == null)
+            Hotel hotel = await _context.Hotels.FindAsync(employee.HotelId);
+            if (hotel is null)
                 throw new KeyNotFoundException("Hotel not found");
 
             await _context.Employees.AddAsync(employee);
@@ -35,11 +35,11 @@ namespace HotelBookingSystem.Services
 
         public async Task<Employee> GetEmployeeById(int id)
         {
-            var employee = await _context.Employees
+            Employee employee = await _context.Employees
                 .Include(e => e.Hotel)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
-            if (employee == null)
+            if (employee is null)
                 throw new KeyNotFoundException("Employee not found");
 
             return employee;
@@ -63,8 +63,8 @@ namespace HotelBookingSystem.Services
 
         public async Task RemoveEmployee(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            Employee employee = await _context.Employees.FindAsync(id);
+            if (employee is null)
                 throw new KeyNotFoundException("Employee not found");
 
             _context.Employees.Remove(employee);
@@ -73,15 +73,15 @@ namespace HotelBookingSystem.Services
 
         public async Task<Employee> UpdateEmployee(Employee employee)
         {
-            var existingEmployee = await _context.Employees.FindAsync(employee.Id);
+            Employee existingEmployee = await _context.Employees.FindAsync(employee.Id);
             if (existingEmployee == null)
                 throw new KeyNotFoundException("Employee not found");
 
             // Verify if new hotel exists if hotel is being changed
             if (existingEmployee.HotelId != employee.HotelId)
             {
-                var hotel = await _context.Hotels.FindAsync(employee.HotelId);
-                if (hotel == null)
+                Hotel hotel = await _context.Hotels.FindAsync(employee.HotelId);
+                if (hotel is null)
                     throw new KeyNotFoundException("Hotel not found");
             }
 

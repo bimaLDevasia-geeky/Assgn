@@ -7,14 +7,9 @@ namespace HotelBookingSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PaymentController : ControllerBase
+    public class PaymentController(IPayment _services) : ControllerBase
     {
-        private readonly IPayment _services;
-
-        public PaymentController(IPayment services)
-        {
-            _services = services;
-        }
+       
 
         [HttpPost]
         public async Task<ActionResult<Payment>> CreatePayment(Payment payment)

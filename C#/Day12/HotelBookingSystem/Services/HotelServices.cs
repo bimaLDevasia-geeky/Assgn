@@ -47,7 +47,7 @@ namespace HotelBookingSystem.Services
 
             Hotel hot = _context.Hotels.FirstOrDefault(z => z.Id == id);
 
-            if (hot == null)
+            if (hot is null)
             {
                 throw new KeyNotFoundException($"Hotel with {id} is not found");
             }
@@ -75,7 +75,7 @@ namespace HotelBookingSystem.Services
         {
             
             Hotel ht = await _context.Hotels.FirstOrDefaultAsync(x => x.Id == id);
-            if (ht != null)
+            if (ht is not null)
             {
                  _context.Hotels.Remove(ht);
                 await _context.SaveChangesAsync();

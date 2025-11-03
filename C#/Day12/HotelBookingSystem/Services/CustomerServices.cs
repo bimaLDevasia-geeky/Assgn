@@ -32,7 +32,7 @@ namespace HotelBookingSystem.Services
                 .Include(c => c.Bookings)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (customer == null)
+            if (customer is null)
                 throw new KeyNotFoundException("Customer not found");
 
             return customer;
@@ -51,8 +51,8 @@ namespace HotelBookingSystem.Services
 
         public async Task RemoveCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            Customer customer = await _context.Customers.FindAsync(id);
+            if (customer is null)
                 throw new KeyNotFoundException("Customer not found");
 
             _context.Customers.Remove(customer);
@@ -61,8 +61,8 @@ namespace HotelBookingSystem.Services
 
         public async Task<Customer> UpdateCustomer(Customer customer)
         {
-            var existingCustomer = await _context.Customers.FindAsync(customer.Id);
-            if (existingCustomer == null)
+            Customer existingCustomer = await _context.Customers.FindAsync(customer.Id);
+            if (existingCustomer is null)
                 throw new KeyNotFoundException("Customer not found");
 
             existingCustomer.FullName = customer.FullName;

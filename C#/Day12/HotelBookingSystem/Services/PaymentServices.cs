@@ -16,11 +16,12 @@ namespace HotelBookingSystem.Services
 
         public async Task<Payment> CreatePayment(Payment payment)
         {
-            var booking = await _context.Bookings.FindAsync(payment.BookingId);
+            Booking booking = await _context.Bookings.FindAsync(payment.BookingId);
             if (booking == null)
                 throw new KeyNotFoundException("Booking not found");
 
-            payment.PaymentDate = DateTime.Now;
+            payment.PaymentDate = DateTime.UtcNow;
+
             payment.Status = PaymentStatus.Pending;
 
             await _context.Payments.AddAsync(payment);
@@ -38,7 +39,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<Payment> GetPaymentById(int id)
         {
-            var payment = await _context.Payments
+            Payment payment = await _context.Payments
                 .Include(p => p.Booking)
                     .ThenInclude(b => b.Customer)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -69,7 +70,7 @@ namespace HotelBookingSystem.Services
 
         public async Task<Payment> UpdatePayment(Payment payment)
         {
-            var existingPayment = await _context.Payments.FindAsync(payment.Id);
+            Payment existingPayment = await _context.Payments.FindAsync(payment.Id);
             if (existingPayment == null)
                 throw new KeyNotFoundException("Payment not found");
 
@@ -83,21 +84,21 @@ namespace HotelBookingSystem.Services
 
         public async Task<Payment> UpdatePaymentStatus(int id, PaymentStatus status)
         {
-            var payment = await _context.Payments
+            Payment payment = await _context.Payments
                 .Include(p => p.Booking)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
-            if (payment == null)
+            if (payment is null)
                 throw new KeyNotFoundException("Payment not found");
 
             payment.Status = status;
 
             // Update booking status if payment is completed
-            if (status == PaymentStatus.Completed && payment.Booking != null)
+            if (status == PaymentStatus.Completed && payment.Booking is not null)
             {
                 payment.Booking.Status = BookingStatus.Confirmed;
             }
-            else if (status == PaymentStatus.Cancelled && payment.Booking != null)
+            else if (status == PaymentStatus.Cancelled && payment.Booking is not null)
             {
                 payment.Booking.Status = BookingStatus.Cancelled;
             }
