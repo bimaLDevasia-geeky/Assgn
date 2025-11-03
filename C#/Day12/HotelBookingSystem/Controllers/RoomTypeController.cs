@@ -18,12 +18,12 @@ namespace HotelBookingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RoomType>> AddRoomType(RoomTypeDTO request)
+        public async Task<ActionResult<RoomTypeResponseDTO>> AddRoomType(RoomTypeCreateDTO request)
         {
             try
             {
-                RoomType roomType = await _services.AddRoomType(request);
-                return roomType;
+                var roomType = await _services.AddRoomType(request);
+                return CreatedAtAction(nameof(GetRoomTypeById), new { id = roomType.Id }, roomType);
             }
             catch (DbUpdateException)
             {
@@ -36,7 +36,7 @@ namespace HotelBookingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RoomType>>> GetAllRoomTypes()
+        public async Task<ActionResult<IEnumerable<RoomTypeResponseDTO>>> GetAllRoomTypes()
         {
             try
             {
@@ -68,14 +68,11 @@ namespace HotelBookingSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<RoomType>> UpdateRoomType(int id, RoomType roomType)
+        public async Task<ActionResult<RoomTypeResponseDTO>> UpdateRoomType(int id, RoomTypeUpdateDTO roomType)
         {
-            if (id != roomType.Id)
-                return BadRequest(new { Message = "ID mismatch" });
-
             try
             {
-                var updatedRoomType = await _services.UpdateRoomType(roomType);
+                var updatedRoomType = await _services.UpdateRoomType(id, roomType);
                 return Ok(updatedRoomType);
             }
             catch (KeyNotFoundException)

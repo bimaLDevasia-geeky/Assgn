@@ -1,3 +1,4 @@
+using HotelBookingSystem.DTO;
 using HotelBookingSystem.Models;
 using HotelBookingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace HotelBookingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Room>> AddRoom(Room room)
+        public async Task<ActionResult<RoomResponseDTO>> AddRoom(RoomCreateDTO room)
         {
             try
             {
@@ -95,14 +96,11 @@ namespace HotelBookingSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Room>> UpdateRoom(int id, Room room)
+        public async Task<ActionResult<RoomResponseDTO>> UpdateRoom(int id, RoomUpdateDTO room)
         {
-            if (id != room.Id)
-                return BadRequest(new { Message = "ID mismatch" });
-
             try
             {
-                var updatedRoom = await _services.UpdateRoom(room);
+                var updatedRoom = await _services.UpdateRoom(id, room);
                 return Ok(updatedRoom);
             }
             catch (KeyNotFoundException)

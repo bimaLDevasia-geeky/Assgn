@@ -1,16 +1,17 @@
+using HotelBookingSystem.DTO;
 using HotelBookingSystem.Models;
 
 namespace HotelBookingSystem.Services.Interfaces
 {
     public interface IBooking
     {
-        Task<Booking> CreateBooking(Booking booking);
-        Task<Booking> GetBookingById(int id);
-        Task<IEnumerable<Booking>> GetAllBookings();
-        Task<IEnumerable<Booking>> GetBookingsByCustomer(int customerId);
-        Task<IEnumerable<Booking>> GetBookingsByHotel(int hotelId);
-        Task<Booking> UpdateBookingStatus(int id, BookingStatus status);
-        Task<Booking> UpdateBooking(Booking booking);
+        Task<BookingResponseDTO> CreateBooking(BookingCreateDTO booking);
+        Task<BookingResponseDTO> GetBookingById(int id);
+        Task<IEnumerable<BookingResponseDTO>> GetAllBookings();
+        Task<IEnumerable<BookingResponseDTO>> GetBookingsByCustomer(int customerId);
+       
+        Task<BookingResponseDTO> UpdateBookingStatus(int id, BookingStatus status);
+        Task<BookingResponseDTO> UpdateBooking(int id, BookingUpdateDTO booking);
         Task CancelBooking(int id);
     }
 }

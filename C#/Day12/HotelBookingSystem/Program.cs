@@ -17,6 +17,13 @@ builder.Services.AddControllers()
 
 builder.Services.AddScoped<IHotelServices,HotelServices>();
 builder.Services.AddScoped<IRoomType, RoomTypeServices>();
+builder.Services.AddScoped<IBooking, BookingServices>();
+builder.Services.AddScoped<ICustomer, CustomerServices>();
+builder.Services.AddScoped<IEmployee, EmployeeServices>();
+builder.Services.AddScoped<IPayment, PaymentServices>();
+builder.Services.AddScoped<IReview, ReviewServices>();
+builder.Services.AddScoped<IRoom, RoomServices>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

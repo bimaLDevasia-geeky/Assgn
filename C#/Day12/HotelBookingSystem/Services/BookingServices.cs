@@ -1,4 +1,5 @@
 using HotelBookingSystem.Context;
+using HotelBookingSystem.DTO;
 using HotelBookingSystem.Models;
 using HotelBookingSystem.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,14 +15,22 @@ namespace HotelBookingSystem.Services
             _context = context;
         }
 
-        public async Task<Booking> CreateBooking(Booking booking)
+        public async Task<BookingResponseDTO> CreateBooking(BookingCreateDTO bookingDto)
         {
             // Verify room availability
-            var isAvailable = await IsRoomAvailable(booking.RoomId, booking.CheckInTime, booking.CheckOutTime);
+            var isAvailable = await IsRoomAvailable(bookingDto.RoomId, bookingDto.CheckInTime, bookingDto.CheckOutTime);
             if (!isAvailable)
                 throw new InvalidOperationException("Room is not available for the selected dates");
 
-            booking.Status = BookingStatus.Pending;
+            var booking = new Booking
+            {
+                CustomerId = bookingDto.CustomerId,
+                RoomId = bookingDto.RoomId,
+                CheckInTime = bookingDto.CheckInTime,
+                CheckOutTime = bookingDto.CheckOutTime,
+                Status = BookingStatus.Pending
+            };
+
             await _context.Bookings.AddAsync(booking);
             await _context.SaveChangesAsync();
 
@@ -33,21 +42,90 @@ namespace HotelBookingSystem.Services
                 await _context.SaveChangesAsync();
             }
 
-            return booking;
+            // Load related entities for response
+            await _context.Entry(booking)
+                .Reference(b => b.Customer)
+                .LoadAsync();
+            await _context.Entry(booking)
+                .Reference(b => b.Room)
+                .LoadAsync();
+            await _context.Entry(booking.Room)
+                .Reference(r => r.RoomType)
+                .LoadAsync();
+            await _context.Entry(booking.Room)
+                .Reference(r => r.Hotel)
+                .LoadAsync();
+
+            return await CreateBookingResponseDTO(booking);
         }
 
-        public async Task<IEnumerable<Booking>> GetAllBookings()
+        public async Task<IEnumerable<BookingResponseDTO>> GetAllBookings()
         {
-            return await _context.Bookings
+            var bookings = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.RoomType)
+                .Include(b => b.Payment)
                 .ToListAsync();
+
+            return await Task.WhenAll(bookings.Select(async b => await CreateBookingResponseDTO(b)));
         }
 
-        public async Task<Booking> GetBookingById(int id)
+        private async Task<BookingResponseDTO> CreateBookingResponseDTO(Booking booking)
+        {
+            return new BookingResponseDTO
+            {
+                Id = booking.Id,
+                CheckInTime = booking.CheckInTime,
+                CheckOutTime = booking.CheckOutTime,
+                Status = booking.Status.ToString(),
+                TotalAmount = booking.TotalAmount,
+                Customer = new CustomerResponseDTO
+                {
+                    Id = booking.Customer.Id,
+                    FullName = booking.Customer.FullName,
+                    Email = booking.Customer.Email,
+                    PhoneNumber = booking.Customer.PhoneNumber,
+                    IdProofNumber = booking.Customer.IdProofNumber
+                },
+                Room = new RoomResponseDTO
+                {
+                    Id = booking.Room.Id,
+                    RoomNumber = booking.Room.RoomNumber,
+                    Status = booking.Room.Status.ToString(),
+                    PricePerNight = booking.Room.PricePerNight,
+                    RoomType = new RoomTypeResponseDTO
+                    {
+                        Id = booking.Room.RoomType.Id,
+                        TypeName = booking.Room.RoomType.TypeName,
+                        Description = booking.Room.RoomType.Description,
+                        Capacity = booking.Room.RoomType.Capacity
+                    },
+                    Hotel = new HotelResponseDTO
+                    {
+                        Id = booking.Room.Hotel.Id,
+                        Name = booking.Room.Hotel.Name,
+                        Address = booking.Room.Hotel.Address,
+                        City = booking.Room.Hotel.City,
+                        Country = booking.Room.Hotel.Country,
+                        PhoneNumber = booking.Room.Hotel.PhoneNumber
+                    }
+                },
+                Payment = booking.Payment != null ? new PaymentResponseDTO
+                {
+                    Id = booking.Payment.Id,
+                    BookingId = booking.Payment.BookingId,
+                    PaymentDate = booking.Payment.PaymentDate,
+                    Amount = booking.Payment.Amount,
+                    Status = booking.Payment.Status.ToString(),
+                    Method = booking.Payment.Method.ToString()
+                } : null
+            };
+        }
+
+        public async Task<BookingResponseDTO> GetBookingById(int id)
         {
             var booking = await _context.Bookings
                 .Include(b => b.Customer)
@@ -55,54 +133,105 @@ namespace HotelBookingSystem.Services
                     .ThenInclude(r => r.Hotel)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.RoomType)
+                .Include(b => b.Payment)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
             if (booking == null)
                 throw new KeyNotFoundException("Booking not found");
 
-            return booking;
+            return await CreateBookingResponseDTO(booking);
         }
 
-        public async Task<IEnumerable<Booking>> GetBookingsByCustomer(int customerId)
+        public async Task<IEnumerable<BookingResponseDTO>> GetBookingsByCustomer(int customerId)
         {
-            return await _context.Bookings
+            var bookings = await _context.Bookings
+                .Include(b => b.Customer)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.Hotel)
                 .Include(b => b.Room)
                     .ThenInclude(r => r.RoomType)
+                .Include(b => b.Payment)
                 .Where(b => b.CustomerId == customerId)
                 .ToListAsync();
+
+            return await Task.WhenAll(bookings.Select(async b => await CreateBookingResponseDTO(b)));
         }
 
-        public async Task<IEnumerable<Booking>> GetBookingsByHotel(int hotelId)
+        private async Task<IEnumerable<BookingResponseDTO>> GetBookingsByHotel(int hotelId)
         {
-            return await _context.Bookings
+            var bookings = await _context.Bookings
                 .Include(b => b.Customer)
                 .Include(b => b.Room)
+                    .ThenInclude(r => r.Hotel)
+                .Include(b => b.Room)
                     .ThenInclude(r => r.RoomType)
+                .Include(b => b.Payment)
                 .Where(b => b.Room.HotelId == hotelId)
                 .ToListAsync();
+
+            return await Task.WhenAll(bookings.Select(async b => await CreateBookingResponseDTO(b)));
         }
 
-        public async Task<Booking> UpdateBooking(Booking booking)
+        public async Task<BookingResponseDTO> UpdateBooking(int id, BookingUpdateDTO bookingDto)
         {
-            var existingBooking = await _context.Bookings.FindAsync(booking.Id);
+            var existingBooking = await _context.Bookings
+                .Include(b => b.Customer)
+                .Include(b => b.Room)
+                    .ThenInclude(r => r.Hotel)
+                .Include(b => b.Room)
+                    .ThenInclude(r => r.RoomType)
+                .Include(b => b.Payment)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
             if (existingBooking == null)
                 throw new KeyNotFoundException("Booking not found");
 
-            existingBooking.CheckInTime = booking.CheckInTime;
-            existingBooking.CheckOutTime = booking.CheckOutTime;
-            existingBooking.Status = booking.Status;
-            existingBooking.TotalAmount = booking.TotalAmount;
+            // Verify if the new dates are available (only if dates are being changed)
+            if (existingBooking.CheckInTime != bookingDto.CheckInTime || 
+                existingBooking.CheckOutTime != bookingDto.CheckOutTime)
+            {
+                var isAvailable = await IsRoomAvailable(
+                    existingBooking.RoomId,
+                    bookingDto.CheckInTime,
+                    bookingDto.CheckOutTime);
+
+                if (!isAvailable)
+                    throw new InvalidOperationException("Room is not available for the selected dates");
+            }
+
+            // Calculate nights and total amount
+            var nights = (bookingDto.CheckOutTime - bookingDto.CheckInTime).Days;
+            if (nights <= 0)
+                throw new InvalidOperationException("Check-out time must be after check-in time");
+
+            existingBooking.CheckInTime = bookingDto.CheckInTime;
+            existingBooking.CheckOutTime = bookingDto.CheckOutTime;
+            existingBooking.Status = Enum.Parse<BookingStatus>(bookingDto.Status);
+            existingBooking.TotalAmount = existingBooking.Room.PricePerNight * nights;
+
+            // Update room status based on booking status
+            if (existingBooking.Status == BookingStatus.Cancelled)
+            {
+                existingBooking.Room.Status = RoomStatus.Available;
+            }
+            else if (existingBooking.Status == BookingStatus.Confirmed)
+            {
+                existingBooking.Room.Status = RoomStatus.Booked;
+            }
 
             await _context.SaveChangesAsync();
-            return existingBooking;
+            return await CreateBookingResponseDTO(existingBooking);
         }
 
-        public async Task<Booking> UpdateBookingStatus(int id, BookingStatus status)
+        public async Task<BookingResponseDTO> UpdateBookingStatus(int id, BookingStatus status)
         {
             var booking = await _context.Bookings
+                .Include(b => b.Customer)
                 .Include(b => b.Room)
+                    .ThenInclude(r => r.Hotel)
+                .Include(b => b.Room)
+                    .ThenInclude(r => r.RoomType)
+                .Include(b => b.Payment)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
             if (booking == null)
@@ -121,7 +250,7 @@ namespace HotelBookingSystem.Services
             }
 
             await _context.SaveChangesAsync();
-            return booking;
+            return await CreateBookingResponseDTO(booking);
         }
 
         public async Task CancelBooking(int id)

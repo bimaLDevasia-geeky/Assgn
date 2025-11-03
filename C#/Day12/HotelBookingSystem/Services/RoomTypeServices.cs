@@ -14,7 +14,7 @@ namespace HotelBookingSystem.Services
             _context = context;
         }
 
-        public async Task<RoomType> AddRoomType(RoomTypeDTO body)
+        public async Task<RoomTypeResponseDTO> AddRoomType(RoomTypeCreateDTO body)
         {
             RoomType roomType = new RoomType()
             {
@@ -24,20 +24,41 @@ namespace HotelBookingSystem.Services
             };
             await _context.RoomTypes.AddAsync(roomType);
             await _context.SaveChangesAsync();
-            return roomType;
+            
+            return new RoomTypeResponseDTO
+            {
+                Id = roomType.Id,
+                TypeName = roomType.TypeName,
+                Capacity = roomType.Capacity,
+                Description = roomType.Description
+            };
         }
 
-        public async Task<IEnumerable<RoomType>> GetAllRoomTypes()
+        public async Task<IEnumerable<RoomTypeResponseDTO>> GetAllRoomTypes()
         {
-            return await _context.RoomTypes.ToListAsync();
+            var roomTypes = await _context.RoomTypes.ToListAsync();
+            return roomTypes.Select(rt => new RoomTypeResponseDTO
+            {
+                Id = rt.Id,
+                TypeName = rt.TypeName,
+                Capacity = rt.Capacity,
+                Description = rt.Description
+            });
         }
 
-        public async Task<RoomType> GetRoomTypeById(int id)
+        public async Task<RoomTypeResponseDTO> GetRoomTypeById(int id)
         {
             var roomType = await _context.RoomTypes.FindAsync(id);
             if (roomType == null)
                 throw new KeyNotFoundException("RoomType not found");
-            return roomType;
+
+            return new RoomTypeResponseDTO
+            {
+                Id = roomType.Id,
+                TypeName = roomType.TypeName,
+                Capacity = roomType.Capacity,
+                Description = roomType.Description
+            };
         }
 
         public async Task RemoveRoomType(int id)
@@ -49,18 +70,25 @@ namespace HotelBookingSystem.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<RoomType> UpdateRoomType(RoomType roomType)
+        public async Task<RoomTypeResponseDTO> UpdateRoomType(int id, RoomTypeUpdateDTO roomTypeDto)
         {
-            var existingRoomType = await _context.RoomTypes.FindAsync(roomType.Id);
+            var existingRoomType = await _context.RoomTypes.FindAsync(id);
             if (existingRoomType == null)
                 throw new KeyNotFoundException("RoomType not found");
 
-            existingRoomType.TypeName = roomType.TypeName;
-            existingRoomType.Description = roomType.Description;
-            existingRoomType.Capacity = roomType.Capacity;
+            existingRoomType.TypeName = roomTypeDto.TypeName;
+            existingRoomType.Description = roomTypeDto.Description;
+            existingRoomType.Capacity = roomTypeDto.Capacity;
 
             await _context.SaveChangesAsync();
-            return existingRoomType;
+
+            return new RoomTypeResponseDTO
+            {
+                Id = existingRoomType.Id,
+                TypeName = existingRoomType.TypeName,
+                Capacity = existingRoomType.Capacity,
+                Description = existingRoomType.Description
+            };
         }
     }
 }

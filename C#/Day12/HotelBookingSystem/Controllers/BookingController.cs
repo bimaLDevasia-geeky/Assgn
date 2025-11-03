@@ -1,7 +1,7 @@
+using HotelBookingSystem.DTO;
 using HotelBookingSystem.Models;
 using HotelBookingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingSystem.Controllers
 {
@@ -17,7 +17,7 @@ namespace HotelBookingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Booking>> CreateBooking(Booking booking)
+        public async Task<ActionResult<BookingResponseDTO>> CreateBooking(BookingCreateDTO booking)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace HotelBookingSystem.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { Message = "Room not found" });
+                return NotFound(new { Message = "Room or Customer not found" });
             }
             catch (Exception)
             {
@@ -39,7 +39,7 @@ namespace HotelBookingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookings()
+        public async Task<ActionResult<IEnumerable<BookingResponseDTO>>> GetAllBookings()
         {
             try
             {
@@ -84,34 +84,21 @@ namespace HotelBookingSystem.Controllers
             }
         }
 
-        [HttpGet("hotel/{hotelId}")]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetBookingsByHotel(int hotelId)
-        {
-            try
-            {
-                var bookings = await _services.GetBookingsByHotel(hotelId);
-                return Ok(bookings);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new { Message = "Internal Server Error" });
-            }
-        }
-
         [HttpPut("{id}")]
-        public async Task<ActionResult<Booking>> UpdateBooking(int id, Booking booking)
+        public async Task<ActionResult<BookingResponseDTO>> UpdateBooking(int id, BookingUpdateDTO booking)
         {
-            if (id != booking.Id)
-                return BadRequest(new { Message = "ID mismatch" });
-
             try
             {
-                var updatedBooking = await _services.UpdateBooking(booking);
+                var updatedBooking = await _services.UpdateBooking(id, booking);
                 return Ok(updatedBooking);
             }
             catch (KeyNotFoundException)
             {
                 return NotFound(new { Message = "Booking not found" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
             }
             catch (Exception)
             {

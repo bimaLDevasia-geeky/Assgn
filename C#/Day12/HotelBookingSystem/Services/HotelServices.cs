@@ -30,7 +30,7 @@ namespace HotelBookingSystem.Services
         }
         public async Task<IEnumerable<Hotel>> GetAllHotels() {
 
-            List<Hotel> Hotels = await _context.Hotels.ToListAsync();
+            List<Hotel> Hotels = await _context.Hotels.Include(a=>a.Rooms).ToListAsync();
             return Hotels;
         }
 
