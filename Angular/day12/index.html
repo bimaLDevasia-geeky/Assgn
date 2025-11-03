@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+            
+            
+        }
+    </style>
+    
+</head>
+<body>
+
+    <div>
+
+    
+    <h2>1. Display User Input Type</h2>
+    <input type="text" id="userInput" placeholder="Type something...">
+    <button id="checkTypeBtn">Check Type</button>
+    <p id="typeResult"></p>
+    <script>
+        const userInput = document.getElementById('userInput');
+        const checkTypeBtn = document.getElementById('checkTypeBtn');
+        const typeResult = document.getElementById('typeResult');
+
+        checkTypeBtn.addEventListener('click', () => {
+            const value = userInput.value;
+            let detectedType;
+
+            // Check for booleans
+            if (value === 'true' || value === 'false') {
+                detectedType = 'boolean';
+            } 
+            // Check for numbers (ensuring it's not just an empty string or whitespace)
+            else if (value.trim() !== '' && !isNaN(value)) {
+                detectedType = 'number';
+            } 
+            // Default to string
+            else {
+                detectedType = 'string';
+            }
+
+            // Display the original text and the detected type
+            typeResult.innerHTML = `You typed: "${value}"<br>Detected Type: ${detectedType}`;
+        });
+    </script>
+
+
+    <h2>
+       2. Sum of Two Numbers
+    </h2>
+
+    <input type="text" id="num1" placeholder="Enter first number">
+    <input type="text" id="num2" placeholder="Enter second number">
+    <button id="sumBtn">Calculate Sum</button>
+    <p id="sumResult"></p>
+
+    <script>
+        const num1 = document.getElementById('num1');
+        const num2 = document.getElementById('num2');
+        const sumBtn = document.getElementById('sumBtn');
+        const sumResult = document.getElementById('sumResult');
+        sumBtn.addEventListener('click',()=>{
+            const number1 = parseFloat(num1.value);
+            const number2 = parseFloat(num2.value);
+            if(!isNaN(number1) && !isNaN(number2)){
+                const sum = number1 + number2;
+                sumResult.innerHTML = `Sum: ${sum}`;
+            } else {
+                sumResult.innerHTML = 'Please enter valid numbers.';
+            }
+        })
+       
+    </script>
+
+
+    <h2>3. Boolean Toggle Message</h2>
+    <label for="toggleCheckbox">Toggle Message</label>
+    <button id="toggleBtn">Toggle Message</button>
+    <p id="toggleMessage" >
+        hello world
+    </p>
+    <script>
+        const toggleBtn = document.getElementById('toggleBtn');
+        const toggleMessage = document.getElementById('toggleMessage');
+        
+
+        toggleBtn.addEventListener('click', () => {
+            if (toggleMessage.style.display === 'none') {
+                toggleMessage.style.display = 'block';
+            } else {
+                toggleMessage.style.display = 'none';
+            }
+        });
+    </script>
+
+
+
+    <h2>4. Array of Favorite Colors</h2>
+    <div>
+        <input type="text" id="colorInput" placeholder="Enter your favorite color">
+        <button id="addColorBtn">Add Color</button>
+        <ul id="colorList"></ul>
+    </div>
+    <script>
+        inputBtn = document.getElementById('colorInput');
+        addColorBtn = document.getElementById('addColorBtn');
+        colorList = document.getElementById('colorList');
+
+
+        addColorBtn.addEventListener('click',()=>{
+            const color = inputBtn.value;
+            if(color){
+                const listItem = document.createElement('li');
+                listItem.textContent = color;
+                colorList.appendChild(listItem);
+                inputBtn.value = '';
+            }
+        })
+    </script>
+
+
+    <h2>5.Object Display</h2>
+
+    <button id="addButton"> Show Student Info</button>
+    <p id="output"></p>
+
+    
+    
+
+    <script>
+        const addButton = document.getElementById("addButton");
+        const outputP = document.getElementById("output");
+        const student ={
+            name:"bimal",
+            age:34,
+            grade:'A'
+        }
+
+        addButton.addEventListener('click',()=>{
+            outputP.innerHTML=`
+            <p>the name is ${student.name}</p>
+            <p>the age is ${student.age}</p>
+            <p>the grade is ${student.grade}</p>
+            `
+        })
+
+    </script>
+
+
+    <h2>6. Change Background Color</h2>
+    <div style="display: flex;gap:20px">
+        <button class="btn" style="width: 30px;height: 30px;background-color: red;border:none;cursor: pointer;"></button>
+        <button class="btn" style="width: 30px;height: 30px;background-color: green;border:none;cursor: pointer;"></button>
+        <button class="btn" style="width: 30px;height: 30px;background-color: blue;border:none;cursor: pointer;"></button>
+    </div>
+    <script>
+        const button = document.getElementsByClassName('btn');
+
+        for (let btn of button) {
+            btn.addEventListener('click', () => {
+            document.body.style.backgroundColor = btn.style.backgroundColor;
+  });
+}
+
+    </script>
+
+    </div>
+</body>
+</html>
