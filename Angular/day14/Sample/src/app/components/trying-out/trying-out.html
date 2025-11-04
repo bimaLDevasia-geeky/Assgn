@@ -1,0 +1,101 @@
+<!-- <p>trying-out works!</p>
+
+<p>{{ getTitle() }}</p> -->
+<!-- <button (click)="sendMessageToParent()">Send Message to Parent</button> -->
+<div class="container">
+<div>
+        <h2 >Indian States Information</h2>
+    </div>
+    <table border="1" bordercolor="black" cellspacing="0" width="30%" height="80%" cellpadding="5">
+        <thead>
+        <tr bgcolor="Grey" >
+            <th>State</th>
+            <th>Chief Minister</th>
+            <th>Capital</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td bgcolor="lightgrey">Andhra </td>
+            <td>Jagan</td>
+            <td>Amaravati</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Telangana</td>
+            <td>KCR</td>
+            <td>Hyderabad</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Karnataka</td>
+            <td>Bommai</td>
+            <td>Bengaluru</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Maharashtra</td>
+            <td>Uddhav Thackeray</td>
+            <td>Mumbai</td>
+        </tr>
+        <tr>
+            <td bgcolor="lightgrey">Kerala</td>
+            <td>Pinarayi </td>
+            <td>Trivandrum</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div >
+        <h1>Link</h1>
+        <a href="https://www.google.com">Opens in the same page</a> <br>
+        <a href="https://www.google.com" target="_blank">Opens in a new tab</a>
+    </div>
+
+
+    <div>
+        <h1>unordered</h1>
+        <ul type="none" class="unordered-list">
+            <li class="light-li">one</li>
+            <li class="dark-li">two</li>
+            <li class="light-li">three</li>
+            <li class="dark-li">four</li>
+            <li class="light-li">five</li>
+            <li class="dark-li">six</li>
+        </ul>
+
+        <br>
+        <h1>Nested</h1>
+        <br>
+
+        <ul type="none" class="nested-ul" >
+            <li class="light-li">1</li>
+            <li>
+                <ul class="nested-ul" type="none"   >
+                    <li class="light-li">1.1</li>
+                    <li class="light-li">1.2</li>
+                </ul>
+            </li>
+            <li class="light-li">2</li>
+            <li><ul class="nested-ul" type="none"   >
+                <li class="light-li">2.1</li>
+                <li class="light-li">2.2</li>
+            </ul></li>
+        </ul>
+    </div>
+
+    <button (click)="alertme()"><h1>Click Me</h1></button>
+
+
+    <form #userForm="ngForm" (ngSubmit)="checkLeapYear(year)">
+        <input type="text" 
+               name="year"
+               [(ngModel)]="year"
+               placeholder="Enter year to check leap year"/>
+
+        <button type="submit">Check Leap Year</button>
+
+    </form>
+
+
+
+    </div>
