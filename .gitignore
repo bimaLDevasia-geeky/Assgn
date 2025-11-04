@@ -1,12 +1,14 @@
 /docker
 /.vs/
 
+
  Ignore build outputs for all projects
 **/bin/
 **/obj/
 
 # Ignore Visual Studio folders
 **/.vs/
+**/.vscode/
 
 # Ignore user-specific and IDE files
 *.user
@@ -35,3 +37,19 @@
 # Ignore Mac or Windows metadata
 .DS_Store
 Thumbs.db
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+.env
+.env.*.local
+
+**/node_modules/
+**/dist/
+**/out-tsc/
+**/coverage/
+**/tmp/
+**/.angular/

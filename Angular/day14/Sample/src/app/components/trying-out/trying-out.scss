@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.unordered-list {
+    width: 300px;
+    text-align: center;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.light-li{
+    background-color: lightgrey;
+    padding: 2px;
+}
+
+.dark-li{
+    background-color: black;
+    padding: 2px;
+    color: white;
+}
+
+.nested-ul{
+    width: 300px;
+    text-align: center;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
