@@ -54,7 +54,7 @@ namespace Hotel.Booking.API.Controllers
         public async Task<IActionResult> DeleteHotel(Guid id)
         {
             DeleteHotelCommand command = new DeleteHotelCommand { Id = id };
-            var result = await _mediator.Send(command);
+            bool result = await _mediator.Send(command);
             if (!result)
             {
                 return NotFound(new { message = "Hotel not found" });

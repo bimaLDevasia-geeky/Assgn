@@ -20,18 +20,18 @@ namespace Hotel.Booking.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<domain.RoomType>>> GetAllRoomTypes()
         {
-            var query = new GetAllRoomTypesQuery();
-            var result = await _mediator.Send(query);
+            GetAllRoomTypesQuery query = new GetAllRoomTypesQuery();
+            List<domain.RoomType> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<domain.RoomType>> GetRoomTypeById(Guid id)
         {
-            var query = new GetRoomTypeByIdQuery { Id = id };
-            var result = await _mediator.Send(query);
-            
-            if (result == null)
+            GetRoomTypeByIdQuery query = new GetRoomTypeByIdQuery { Id = id };
+            domain.RoomType? result = await _mediator.Send(query);
+
+            if (result is null)
             {
                 return NotFound(new { message = "RoomType not found" });
             }
@@ -63,7 +63,7 @@ namespace Hotel.Booking.API.Controllers
         {
             try
             {
-                var command = new DeleteRoomTypeCommand { Id = id };
+                DeleteRoomTypeCommand command = new DeleteRoomTypeCommand { Id = id };
                 await _mediator.Send(command);
                 return NoContent();
             }

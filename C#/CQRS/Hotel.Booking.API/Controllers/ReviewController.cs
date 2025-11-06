@@ -20,18 +20,18 @@ namespace Hotel.Booking.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<domain.Review>>> GetAllReviews()
         {
-            var query = new GetAllReviewsQuery();
-            var result = await _mediator.Send(query);
+            GetAllReviewsQuery query = new GetAllReviewsQuery();
+            List<domain.Review> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<domain.Review>> GetReviewById(Guid id)
         {
-            var query = new GetReviewByIdQuery { Id = id };
-            var result = await _mediator.Send(query);
-            
-            if (result == null)
+            GetReviewByIdQuery query = new GetReviewByIdQuery { Id = id };
+            domain.Review? result = await _mediator.Send(query);
+
+            if (result is null)
             {
                 return NotFound(new { message = "Review not found" });
             }
@@ -63,7 +63,7 @@ namespace Hotel.Booking.API.Controllers
         {
             try
             {
-                var command = new DeleteReviewCommand { Id = id };
+                DeleteReviewCommand command = new DeleteReviewCommand { Id = id };
                 await _mediator.Send(command);
                 return NoContent();
             }

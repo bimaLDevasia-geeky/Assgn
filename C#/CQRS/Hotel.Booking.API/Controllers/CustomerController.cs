@@ -20,17 +20,17 @@ namespace Hotel.Booking.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<domain.Customer>>> GetAllCustomers()
         {
-            var query = new GetAllCustomersQuery();
-            var result = await _mediator.Send(query);
+            GetAllCustomersQuery query = new GetAllCustomersQuery();
+            List<domain.Customer> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<domain.Customer>> GetCustomerById(Guid id)
         {
-            var query = new GetCustomerByIdQuery { Id = id };
-            var result = await _mediator.Send(query);
-            
+            GetCustomerByIdQuery query = new GetCustomerByIdQuery { Id = id };
+            domain.Customer result = await _mediator.Send(query);
+
             if (result == null)
             {
                 return NotFound(new { message = "Customer not found" });
@@ -63,7 +63,7 @@ namespace Hotel.Booking.API.Controllers
         {
             try
             {
-                var command = new DeleteCustomerCommand { Id = id };
+                DeleteCustomerCommand command = new DeleteCustomerCommand { Id = id };
                 await _mediator.Send(command);
                 return NoContent();
             }

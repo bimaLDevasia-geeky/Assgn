@@ -20,18 +20,18 @@ namespace Hotel.Booking.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<domain.Payment>>> GetAllPayments()
         {
-            var query = new GetAllPaymentsQuery();
-            var result = await _mediator.Send(query);
+            GetAllPaymentsQuery query = new GetAllPaymentsQuery();
+            List<domain.Payment> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<domain.Payment>> GetPaymentById(Guid id)
         {
-            var query = new GetPaymentByIdQuery { Id = id };
-            var result = await _mediator.Send(query);
-            
-            if (result == null)
+            GetPaymentByIdQuery query = new GetPaymentByIdQuery { Id = id };
+            domain.Payment? result = await _mediator.Send(query);
+
+            if (result is null)
             {
                 return NotFound(new { message = "Payment not found" });
             }
@@ -63,7 +63,7 @@ namespace Hotel.Booking.API.Controllers
         {
             try
             {
-                var command = new DeletePaymentCommand { Id = id };
+                DeletePaymentCommand command = new DeletePaymentCommand { Id = id };
                 await _mediator.Send(command);
                 return NoContent();
             }

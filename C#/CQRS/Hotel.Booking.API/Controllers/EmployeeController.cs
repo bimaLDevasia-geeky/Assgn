@@ -20,17 +20,17 @@ namespace Hotel.Booking.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<domain.Employee>>> GetAllEmployees()
         {
-            var query = new GetAllEmployeesQuery();
-            var result = await _mediator.Send(query);
+            GetAllEmployeesQuery query = new GetAllEmployeesQuery();
+            List<domain.Employee> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<domain.Employee>> GetEmployeeById(Guid id)
         {
-            var query = new GetEmployeeByIdQuery { Id = id };
-            var result = await _mediator.Send(query);
-            
+            GetEmployeeByIdQuery query = new GetEmployeeByIdQuery { Id = id };
+            domain.Employee result = await _mediator.Send(query);
+
             if (result == null)
             {
                 return NotFound(new { message = "Employee not found" });
@@ -63,7 +63,7 @@ namespace Hotel.Booking.API.Controllers
         {
             try
             {
-                var command = new DeleteEmployeeCommand { Id = id };
+                DeleteEmployeeCommand command = new DeleteEmployeeCommand { Id = id };
                 await _mediator.Send(command);
                 return NoContent();
             }
