@@ -1,0 +1,57 @@
+:host{
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
+.container {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.sidebar {
+    width: 20%;
+    background-color: #f4f4f4;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.outlet{
+    flex: 1;
+}
+
+.sidebar ul{
+    display: flex;
+    flex-direction: column;
+    gap:2rem;
+    width: 100%;
+    padding: 0;
+}
+.sidebar li{
+    list-style-type: none;
+    font-size: 2rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;  
+    width: 100%;
+  
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: black;
+}
+
+.sidebar li a {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.sidebar li.active-link{
+    font-weight: 700;
+    color: white;
+    background-color: #112859;
+}

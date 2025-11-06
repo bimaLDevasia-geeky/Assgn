@@ -1,0 +1,48 @@
+.nav-main {
+    height: 6rem;
+    display: flex;
+    background: #112859;
+    ;
+}
+.nav-inside {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 1rem;
+}
+.nav-list {
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: 0;
+    margin: 0;
+}
+
+
+.nav-list .nav-item a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+/* Override browser default visited link color */
+
+/* Hover effect */
+.nav-list .nav-item a:hover {
+    color: #ccc;
+}
+
+/* Active route styling */
+.active-link {
+    border-bottom: 3px solid #ffffff;
+    color: #ffffff !important;
+    font-weight: 600;
+}
