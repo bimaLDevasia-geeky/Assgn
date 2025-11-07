@@ -1,6 +1,8 @@
-using Hotel.Booking.Application.Command;
-using Hotel.Booking.Application.Query;
+using Hotel.Booking.Application.Command.Payment;
+using Hotel.Booking.Application.Query.Payment;
 using MediatR;
+using Hotel.Booking.Application.Query.Payment;
+using Hotel.Booking.Application.Command.Payment;
 using Microsoft.AspNetCore.Mvc;
 using domain = Hotel.Booking.Domain.Entities;
 

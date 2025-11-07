@@ -1,0 +1,11 @@
+using System;
+using MediatR;
+using appDomain = Hotel.Booking.Domain.Entities;
+
+namespace Hotel.Booking.Application.Query.Employee
+{
+    public class GetEmployeeByIdQuery : IRequest<appDomain.Employee?>
+    {
+        public Guid Id { get; set; }
+    }
+}

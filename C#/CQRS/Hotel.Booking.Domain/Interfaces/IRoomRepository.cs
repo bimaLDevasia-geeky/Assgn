@@ -9,7 +9,7 @@ namespace Hotel.Booking.Domain.Interfaces
 {
     public interface IRoomRepository
     {
-        Task<appDomain.Room?> GetByIdAsync(Guid id);
+        Task<appDomain.Room?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<List<appDomain.Room>> GetAllAsync();
         Task AddAsync(appDomain.Room room);
         void Delete(appDomain.Room room);

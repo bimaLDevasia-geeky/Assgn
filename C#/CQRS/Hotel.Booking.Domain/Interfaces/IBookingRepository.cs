@@ -7,7 +7,7 @@ namespace Hotel.Booking.Domain.Interfaces
 {
     public interface IBookingRepository
     {
-        Task<appDomain.Booking?> GetByIdAsync(Guid id);
+        Task<appDomain.Booking?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<List<appDomain.Booking>> GetAllAsync();
         Task AddAsync(appDomain.Booking booking);
         void Delete(appDomain.Booking booking);

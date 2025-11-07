@@ -9,7 +9,7 @@ namespace Hotel.Booking.Domain.Interfaces
 {
     public interface IRoomTypeRepository
     {
-        Task<appDomain.RoomType?> GetByIdAsync(Guid id);
+        Task<appDomain.RoomType?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<List<appDomain.RoomType>> GetAllAsync();
         Task AddAsync(appDomain.RoomType roomType);
         void Delete(appDomain.RoomType roomType);

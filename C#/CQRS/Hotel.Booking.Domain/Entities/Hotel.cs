@@ -20,7 +20,7 @@ namespace Hotel.Booking.Domain.Entities
 
         public ICollection<Room> Rooms { get; private set; } = new List<Room>();
         public ICollection<Employee> Employees { get; private set; } = new List<Employee>();
-        public static Hotel Create(string name, string address, string city, string country, string phone)
+        public static Hotel Create(string name, string address, string city, string phone, string country)
         {
 
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException("Hotel Name is required");

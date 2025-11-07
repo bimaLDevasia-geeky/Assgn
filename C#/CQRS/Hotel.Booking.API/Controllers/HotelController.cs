@@ -1,9 +1,11 @@
-﻿using Hotel.Booking.Application.Command;
+using Hotel.Booking.Application.Command.Hotel;
 using Hotel.Booking.Application.DTOs;
-using Hotel.Booking.Application.Query;
 using MediatR;
+using Hotel.Booking.Application.Query.Hotel;
+using Hotel.Booking.Application.Command.Hotel;
 using Microsoft.AspNetCore.Mvc;
 using appDomain = Hotel.Booking.Domain.Entities;
+using Hotel.Booking.Application.Query;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -29,9 +31,11 @@ namespace Hotel.Booking.API.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<appDomain.Hotel> GetHotel()
+        public async Task<ActionResult<appDomain.Hotel>> GetHotel(Guid id)
         {
-            return appDomain.Hotel.Create("k", "sdf", "sd", "dsf", "dad");
+            GetHotelByIdQuery query = new GetHotelByIdQuery { Id = id };
+            appDomain.Hotel hotel = await _mediator.Send(query);
+            return Ok(hotel);
         }
 
 

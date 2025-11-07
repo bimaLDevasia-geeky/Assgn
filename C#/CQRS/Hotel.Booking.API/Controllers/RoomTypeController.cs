@@ -1,6 +1,6 @@
-using Hotel.Booking.Application.Command;
-using Hotel.Booking.Application.Query;
 using MediatR;
+using Hotel.Booking.Application.Query.RoomType;
+using Hotel.Booking.Application.Command.RoomType;
 using Microsoft.AspNetCore.Mvc;
 using domain = Hotel.Booking.Domain.Entities;
 

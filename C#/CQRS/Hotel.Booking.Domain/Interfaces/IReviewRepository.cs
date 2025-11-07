@@ -7,7 +7,7 @@ namespace Hotel.Booking.Domain.Interfaces
 {
     public interface IReviewRepository
     {
-        Task<appDomain.Review?> GetByIdAsync(Guid id);
+        Task<appDomain.Review?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<List<appDomain.Review>> GetAllAsync();
         Task AddAsync(appDomain.Review review);
         void Delete(appDomain.Review review);

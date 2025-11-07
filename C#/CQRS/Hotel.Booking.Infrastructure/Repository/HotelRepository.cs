@@ -11,11 +11,11 @@ namespace Hotel.Booking.Infrastructure.Repository
 {
     public class HotelRepository(HotelBookingDbContext _context):IHotelRepository
     {
-        public async Task<appDomain.Hotel?> GetByIdAsync(Guid id)
+        public async Task<appDomain.Hotel?> GetByIdAsync(Guid id,CancellationToken ct = default)
         {
-            return await _context.Hotels.FindAsync(id);
-
+            return await _context.Hotels.FindAsync(new object[]{ id },ct);
         }
+
 
         public async Task AddAsync(appDomain.Hotel hotel)
         {

@@ -10,7 +10,7 @@ namespace Hotel.Booking.Infrastructure.Repository
 {
     public class PaymentRepository(HotelBookingDbContext _context) : IPaymentRepository
     {
-        public async Task<domain.Payment?> GetByIdAsync(Guid id)
+        public async Task<domain.Payment?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             return await _context.Payments
                 .Include(p => p.Booking)

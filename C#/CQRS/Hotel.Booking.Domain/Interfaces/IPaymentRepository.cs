@@ -7,7 +7,7 @@ namespace Hotel.Booking.Domain.Interfaces
 {
     public interface IPaymentRepository
     {
-        Task<appDomain.Payment?> GetByIdAsync(Guid id);
+        Task<appDomain.Payment?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<List<appDomain.Payment>> GetAllAsync();
         Task AddAsync(appDomain.Payment payment);
         void Delete(appDomain.Payment payment);

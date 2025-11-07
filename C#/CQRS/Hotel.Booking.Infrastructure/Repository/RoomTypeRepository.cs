@@ -12,7 +12,7 @@ namespace Hotel.Booking.Infrastructure.Repository
 {
     public class RoomTypeRepository(HotelBookingDbContext _context) : IRoomTypeRepository
     {
-        public async Task<domain.RoomType?> GetByIdAsync(Guid id)
+        public async Task<domain.RoomType?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             return await _context.RoomTypes
                 .Include(rt => rt.Rooms)

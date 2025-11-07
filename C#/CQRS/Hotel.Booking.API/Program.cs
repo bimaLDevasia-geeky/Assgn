@@ -10,6 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+string MyAllowSpecificOrigins = "AllowMyAngularApp";
+
+// 1. ADD THE CORS POLICY to your services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200") // Your Angular app's URL
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
+
+
 builder.Services.AddControllers()
 .AddJsonOptions(options =>
 {
@@ -52,6 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
