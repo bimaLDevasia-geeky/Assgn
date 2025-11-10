@@ -1,0 +1,39 @@
+<div class="employees-page">
+  <div class="section-header">
+    <h2 class="section-title">Hotel Staff</h2>
+  </div>
+
+  @if(employees$ | async; as employees) {
+    @if(employees.length > 0) {
+      <div class="employees-grid">
+        @for(employee of employees; track employee.id) {
+          <div class="employee-card" (click)="onEmployeeClick(employee)">
+            <div class="employee-header">
+              <div class="employee-avatar">👤</div>
+              <div class="employee-info">
+                <h3 class="employee-name">{{employee.fullName}}</h3>
+                <span class="employee-role">{{employee.role}}</span>
+              </div>
+            </div>
+            <div class="employee-contact">
+              <div class="contact-item">
+                <span class="contact-icon">📧</span>
+                <span class="contact-value">{{employee.email}}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <div class="empty-icon">👥</div>
+        <p>No employees found for this hotel</p>
+      </div>
+    }
+  } @else {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading employees...</p>
+    </div>
+  }
+</div>

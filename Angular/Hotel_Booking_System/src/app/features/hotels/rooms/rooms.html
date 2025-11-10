@@ -1,0 +1,58 @@
+<div class="rooms-container">
+  <div class="section-header">
+    <h2 class="section-title">Available Rooms</h2>
+  </div>
+
+  @if(rooms$ | async; as rooms){
+    @if(rooms.length > 0) {
+      <div class="rooms-grid">
+        @for(room of rooms; track room.id){
+          <div class="room-card">
+            <div class="room-header">
+              <div class="room-number">Room {{room.roomNumber}}</div>
+              <div class="room-status" [class.available]="room.status === 'Available'" 
+                   [class.booked]="room.status === 'Booked'"
+                   [class.maintenance]="room.status === 'Maintenance'" >
+                {{room.status}}
+              </div>
+            </div>
+            
+            <div class="room-body">
+              <div class="room-type">
+                <span class="type-icon">🛏️</span>
+                <span class="type-name">{{room.roomType.typeName}}</span>
+              </div>
+              
+              <div class="room-details">
+                <div class="detail-item">
+                  <span class="detail-label">Capacity:</span>
+                  <span class="detail-value">{{room.roomType.capacity}} guests</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Price:</span>
+                  <span class="detail-value price">${{room.pricePerNight}}/night</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="room-footer">
+              <button class="book-btn" [disabled]="room.status !== 'Available'">
+                {{room.status === 'Available' ? 'Book Now' : 'Not Available'}}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <div class="empty-icon">🚪</div>
+        <p>No rooms available</p>
+      </div>
+    }
+  } @else {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading rooms...</p>
+    </div>
+  }
+</div>
