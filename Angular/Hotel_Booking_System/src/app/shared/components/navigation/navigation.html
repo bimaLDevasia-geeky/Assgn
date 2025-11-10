@@ -1,16 +1,29 @@
-<div class="nav-main">
-    <div class="nav-inside">
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a routerLink="/home" routerLinkActive="active-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a routerLink="/hotels" routerLinkActive="active-link" >Hotel</a>
-            </li>
-            <li class="nav-item">
-                <a routerLink="/customers" routerLinkActive="active-link" >Customer</a>
-            </li>
-            
-        </ul>
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- Logo Section -->
+    <div class="nav-logo" routerLink="/home">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3L2 9V21H22V9L12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 9H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <rect x="9" y="13" width="2" height="3" fill="currentColor"/>
+        <rect x="13" y="13" width="2" height="3" fill="currentColor"/>
+        <rect x="9" y="17" width="2" height="3" fill="currentColor"/>
+        <rect x="13" y="17" width="2" height="3" fill="currentColor"/>
+      </svg>
+      <span class="logo-text">Hotel Booking</span>
     </div>
-</div>
+
+    <!-- Navigation Links -->
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a routerLink="/home" routerLinkActive="active-link" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/hotels" routerLinkActive="active-link" class="nav-link">Hotels</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/customers" routerLinkActive="active-link" class="nav-link">Customers</a>
+      </li>
+    </ul>
+  </div>
+</nav>

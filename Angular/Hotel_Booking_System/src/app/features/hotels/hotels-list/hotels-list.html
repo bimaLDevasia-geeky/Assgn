@@ -1,1 +1,54 @@
-<p>hotels-list works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Discover Hotels</h1>
+    <p class="page-subtitle">Find your perfect accommodation</p>
+  </div>
+
+  <div class="hotels-container">
+    @if(hotels$ | async; as hotels){
+      @if(hotels.length > 0) {
+        <div class="hotel-grid">
+          @for(hotel of hotels; track hotel.id){
+            <div class="hotel-card" routerLink="/hotels/{{hotel.id}}">
+              <div class="hotel-card-header">
+                <h2 class="hotel-name">{{hotel.name}}</h2>
+                <div class="hotel-rating">
+                  <span class="rating-stars">⭐⭐⭐⭐⭐</span>
+                </div>
+              </div>
+              
+              <div class="hotel-info">
+                <div class="info-row">
+                  <fa-icon [icon]="iconLocation" class="info-icon"></fa-icon>
+                  <span class="info-text">{{hotel.address}}, {{hotel.city}}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Country:</span>
+                  <span class="info-value">{{hotel.country}}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Phone:</span>
+                  <span class="info-value">{{hotel.phoneNumber}}</span>
+                </div>
+              </div>
+
+              <div class="hotel-card-footer">
+                <button class="view-details-btn">View Details</button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state">
+          <div class="empty-icon">🏨</div>
+          <p>No hotels available at the moment</p>
+        </div>
+      }
+    } @else {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading hotels...</p>
+      </div>
+    }
+  </div>
+</div>
