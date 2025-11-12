@@ -3,24 +3,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Hotel.Booking.Infrastructure.Persistance;
+using Hotel.Booking.Application.Interfaces;
 using appDomain = Hotel.Booking.Domain.Entities;
 
 namespace Hotel.Booking.Application.Query.Employee
 {
     public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, List<appDomain.Employee>>
     {
-        private readonly HotelBookingDbContext _context;
+        private readonly IEmployeeQueryService _service;
 
-        public GetAllEmployeesQueryHandler(HotelBookingDbContext context)
+        public GetAllEmployeesQueryHandler(IEmployeeQueryService service)
         {
-            _context = context;
+        _service = service;
         }
 
         public async Task<List<appDomain.Employee>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Employees.ToListAsync(cancellationToken);
+            return await _service.GetAllEmployeesAsync(cancellationToken);
         }
     }
 }

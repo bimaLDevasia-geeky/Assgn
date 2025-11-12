@@ -1,10 +1,12 @@
-using Hotel.Booking.Application.Command.Customer;
+
 using Hotel.Booking.Application.Query.Customer;
 using MediatR;
-using Hotel.Booking.Application.Query.Customer;
-using Hotel.Booking.Application.Command.Customer;
+using Hotel.Booking.Application.Command.Customer.Commands;
+
+
+
 using Microsoft.AspNetCore.Mvc;
-using domain = Hotel.Booking.Domain.Entities;
+using appDomain = Hotel.Booking.Domain.Entities;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -20,18 +22,18 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<domain.Customer>>> GetAllCustomers()
+        public async Task<ActionResult<List<appDomain.Customer>>> GetAllCustomers()
         {
             GetAllCustomersQuery query = new GetAllCustomersQuery();
-            List<domain.Customer> result = await _mediator.Send(query);
+            List<appDomain.Customer> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<domain.Customer>> GetCustomerById(Guid id)
+        public async Task<ActionResult<appDomain.Customer>> GetCustomerById(Guid id)
         {
             GetCustomerByIdQuery query = new GetCustomerByIdQuery { Id = id };
-            domain.Customer result = await _mediator.Send(query);
+            appDomain.Customer result = await _mediator.Send(query);
 
             if (result == null)
             {
@@ -42,12 +44,12 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<domain.Customer>> UpdateCustomer(Guid id, [FromBody] UpdateCustomerCommand command)
+        public async Task<ActionResult<appDomain.Customer>> UpdateCustomer(Guid id, [FromBody] UpdateCustomerCommand command)
         {
             try
             {
                 command.Id = id;
-                domain.Customer customer = await _mediator.Send(command);
+                appDomain.Customer customer = await _mediator.Send(command);
                 return Ok(customer);
             }
             catch (KeyNotFoundException ex)

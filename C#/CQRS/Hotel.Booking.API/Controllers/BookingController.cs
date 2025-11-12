@@ -1,9 +1,9 @@
 
 using Hotel.Booking.Application.Query.Booking;
 using MediatR;
-using Hotel.Booking.Application.Command.Booking;
+using Hotel.Booking.Application.Command.Booking.Commands;
 using Microsoft.AspNetCore.Mvc;
-using domain = Hotel.Booking.Domain.Entities;
+using appDomain = Hotel.Booking.Domain.Entities;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -19,20 +19,20 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<domain.Booking>>> GetAllBookings()
+        public async Task<ActionResult<List<appDomain.Booking>>> GetAllBookings()
         {
             GetAllBookingsQuery query = new GetAllBookingsQuery();
-            List<domain.Booking> result = await _mediator.Send(query);
+            List<appDomain.Booking> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<domain.Booking>> GetBookingById(Guid id)
+        public async Task<ActionResult<appDomain.Booking>> GetBookingById(Guid id)
         {
             GetBookingByIdQuery query = new GetBookingByIdQuery { Id = id };
-            domain.Booking result = await _mediator.Send(query);
+            appDomain.Booking result = await _mediator.Send(query);
 
-            if (result == null)
+            if (result is null)
             {
                 return NotFound(new { message = "Booking not found" });
             }
@@ -41,12 +41,12 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<domain.Booking>> UpdateBooking(Guid id, [FromBody] UpdateBookingCommand command)
+        public async Task<ActionResult<appDomain.Booking>> UpdateBooking(Guid id, [FromBody] UpdateBookingCommand command)
         {
             try
             {
                 command.Id = id;
-                domain.Booking booking = await _mediator.Send(command);
+                appDomain.Booking booking = await _mediator.Send(command);
                 return Ok(booking);
             }
             catch (KeyNotFoundException ex)

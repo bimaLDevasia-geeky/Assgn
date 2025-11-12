@@ -1,8 +1,9 @@
-using Hotel.Booking.Application.Command.Hotel;
+
 using Hotel.Booking.Application.DTOs;
 using MediatR;
+using Hotel.Booking.Application.Command.Hotel.Commands;
 using Hotel.Booking.Application.Query.Hotel;
-using Hotel.Booking.Application.Command.Hotel;
+
 using Microsoft.AspNetCore.Mvc;
 using appDomain = Hotel.Booking.Domain.Entities;
 using Hotel.Booking.Application.Query;

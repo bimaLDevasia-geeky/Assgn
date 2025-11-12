@@ -3,24 +3,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Hotel.Booking.Infrastructure.Persistance;
+using Hotel.Booking.Application.Interfaces;
 using appDomain = Hotel.Booking.Domain.Entities;
 
 namespace Hotel.Booking.Application.Query.Payment
 {
     public class GetAllPaymentsQueryHandler : IRequestHandler<GetAllPaymentsQuery, List<appDomain.Payment>>
     {
-        private readonly HotelBookingDbContext _context;
+        private readonly IPaymentQueryService _service;
 
-        public GetAllPaymentsQueryHandler(HotelBookingDbContext context)
+        public GetAllPaymentsQueryHandler(IPaymentQueryService service)
         {
-            _context = context;
+        _service = service;
         }
 
         public async Task<List<appDomain.Payment>> Handle(GetAllPaymentsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Payments.ToListAsync(cancellationToken);
+            return await _service.GetAllPaymentsAsync(cancellationToken);
         }
     }
 }

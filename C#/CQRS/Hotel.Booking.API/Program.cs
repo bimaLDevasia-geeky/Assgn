@@ -1,10 +1,15 @@
 using Hotel.Booking.Domain.Interfaces;
 using Hotel.Booking.Infrastructure.Persistance;
 using Hotel.Booking.Infrastructure.Repository;
+using Hotel.Booking.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.Tokens;
+using Hotel.Booking.Application.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,7 +59,36 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+// builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
+// Register Query Services
+builder.Services.AddScoped<IHotelQueryService, HotelQueryService>();
+builder.Services.AddScoped<IBookingQueryService, BookingQueryService>();
+builder.Services.AddScoped<ICustomerQueryService, CustomerQueryService>();
+builder.Services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
+builder.Services.AddScoped<IPaymentQueryService, PaymentQueryService>();
+builder.Services.AddScoped<IReviewQueryService, ReviewQueryService>();
+builder.Services.AddScoped<IRoomQueryService, RoomQueryService>();
+builder.Services.AddScoped<IRoomTypeQueryService, RoomTypeQueryService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
 
 
 
@@ -70,6 +104,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

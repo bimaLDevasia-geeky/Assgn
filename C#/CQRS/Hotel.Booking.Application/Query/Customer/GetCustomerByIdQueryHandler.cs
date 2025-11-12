@@ -2,24 +2,23 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Hotel.Booking.Infrastructure.Persistance;
+using Hotel.Booking.Application.Interfaces;
 using appDomain = Hotel.Booking.Domain.Entities;
 
 namespace Hotel.Booking.Application.Query.Customer
 {
     public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, appDomain.Customer?>
     {
-        private readonly HotelBookingDbContext _context;
+        private readonly ICustomerQueryService _service;
 
-        public GetCustomerByIdQueryHandler(HotelBookingDbContext context)
+        public GetCustomerByIdQueryHandler(ICustomerQueryService service)
         {
-            _context = context;
+        _service = service;
         }
 
         public async Task<appDomain.Customer?> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Customers.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            return await _service.GetCustomerByIdAsync(request.Id, cancellationToken);
         }
     }
 }

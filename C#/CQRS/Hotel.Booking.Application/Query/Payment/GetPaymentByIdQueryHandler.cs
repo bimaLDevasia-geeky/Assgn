@@ -2,24 +2,23 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Hotel.Booking.Infrastructure.Persistance;
+using Hotel.Booking.Application.Interfaces;
 using appDomain = Hotel.Booking.Domain.Entities;
 
 namespace Hotel.Booking.Application.Query.Payment
 {
     public class GetPaymentByIdQueryHandler : IRequestHandler<GetPaymentByIdQuery, appDomain.Payment?>
     {
-        private readonly HotelBookingDbContext _context;
+        private readonly IPaymentQueryService _service;
 
-        public GetPaymentByIdQueryHandler(HotelBookingDbContext context)
+        public GetPaymentByIdQueryHandler(IPaymentQueryService service)
         {
-            _context = context;
+        _service = service;
         }
 
         public async Task<appDomain.Payment?> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Payments.FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+            return await _service.GetPaymentByIdAsync(request.Id, cancellationToken);
         }
     }
 }

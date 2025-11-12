@@ -13,7 +13,7 @@ namespace Hotel.Booking.Infrastructure.Repository
     {
         public async Task<appDomain.Hotel?> GetByIdAsync(Guid id,CancellationToken ct = default)
         {
-            return await _context.Hotels.FindAsync(new object[]{ id },ct);
+            return await _context.Hotels.FindAsync(id,ct);
         }
 
 

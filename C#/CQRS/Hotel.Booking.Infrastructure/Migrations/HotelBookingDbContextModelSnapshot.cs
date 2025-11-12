@@ -99,6 +99,10 @@ namespace Hotel.Booking.Infrastructure.Migrations
                     b.Property<Guid>("HotelId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -168,6 +172,37 @@ namespace Hotel.Booking.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("Hotel.Booking.Domain.Entities.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Review", b =>
@@ -295,6 +330,17 @@ namespace Hotel.Booking.Infrastructure.Migrations
                     b.Navigation("Booking");
                 });
 
+            modelBuilder.Entity("Hotel.Booking.Domain.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("Hotel.Booking.Domain.Entities.Employee", "Employee")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Review", b =>
                 {
                     b.HasOne("Hotel.Booking.Domain.Entities.Customer", "Customer")
@@ -342,6 +388,11 @@ namespace Hotel.Booking.Infrastructure.Migrations
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("Hotel.Booking.Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Hotel", b =>

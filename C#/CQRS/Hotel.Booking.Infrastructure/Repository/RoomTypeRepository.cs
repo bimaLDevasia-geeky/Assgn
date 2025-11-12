@@ -1,5 +1,5 @@
 using Hotel.Booking.Domain.Interfaces;
-using domain = Hotel.Booking.Domain.Entities;
+using appDomain = Hotel.Booking.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,26 +12,26 @@ namespace Hotel.Booking.Infrastructure.Repository
 {
     public class RoomTypeRepository(HotelBookingDbContext _context) : IRoomTypeRepository
     {
-        public async Task<domain.RoomType?> GetByIdAsync(Guid id, CancellationToken ct = default)
+        public async Task<appDomain.RoomType?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             return await _context.RoomTypes
                 .Include(rt => rt.Rooms)
                 .FirstOrDefaultAsync(rt => rt.Id == id);
         }
 
-        public async Task<List<domain.RoomType>> GetAllAsync()
+        public async Task<List<appDomain.RoomType>> GetAllAsync()
         {
             return await _context.RoomTypes
                 .Include(rt => rt.Rooms)
                 .ToListAsync();
         }
 
-        public async Task AddAsync(domain.RoomType roomType)
+        public async Task AddAsync(appDomain.RoomType roomType)
         {
             await _context.RoomTypes.AddAsync(roomType);
         }
 
-        public void Delete(domain.RoomType roomType)
+        public void Delete(appDomain.RoomType roomType)
         {
             _context.RoomTypes.Remove(roomType);
         }

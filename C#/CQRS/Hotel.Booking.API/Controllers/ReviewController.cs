@@ -1,6 +1,8 @@
 using MediatR;
+using Hotel.Booking.Application.Command.Review.Commands;
 using Hotel.Booking.Application.Query.Review;
-using Hotel.Booking.Application.Command.Review;
+
+
 using Microsoft.AspNetCore.Mvc;
 using domain = Hotel.Booking.Domain.Entities;
 
@@ -35,7 +37,14 @@ namespace Hotel.Booking.API.Controllers
             {
                 return NotFound(new { message = "Review not found" });
             }
-            
+
+            return Ok(result);
+        }
+        
+        [HttpGet("byhotel")]
+        public async Task<ActionResult<List<domain.Review>>> GetReviewsByHotelId([FromQuery] GetAllReviewOfHotelQuery query)
+        {
+            List<domain.Review> result = await _mediator.Send(query);
             return Ok(result);
         }
 

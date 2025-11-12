@@ -1,8 +1,11 @@
 using MediatR;
+using Hotel.Booking.Application.Command.Room.Commands;
 using Hotel.Booking.Application.Query.Room;
-using Hotel.Booking.Application.Command.Room;
+
+
 using Microsoft.AspNetCore.Mvc;
 using domain = Hotel.Booking.Domain.Entities;
+using Hotel.Booking.Application;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -35,7 +38,16 @@ namespace Hotel.Booking.API.Controllers
             {
                 return NotFound(new { message = "Room not found" });
             }
-            
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("byhotel")]
+        public async Task<ActionResult<List<domain.Room>>> GetRoomsByHotelId([FromQuery] Guid hotelId)
+        {
+            GetRoomsByHostelIdQuery query = new GetRoomsByHostelIdQuery { HotelId = hotelId };
+            List<domain.Room> result = await _mediator.Send(query);
             return Ok(result);
         }
 
