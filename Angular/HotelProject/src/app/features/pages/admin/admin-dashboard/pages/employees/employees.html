@@ -1,0 +1,118 @@
+<div class="employee-container">
+  <div class="page-header">
+    <h1 class="page-title">Employee Management</h1>
+    <button class="btn-add" (click)="openAddModal()">
+      <fa-icon [icon]="faPlus"></fa-icon>
+      <span>Add Employee</span>
+    </button>
+  </div>
+
+  @if(employees().length > 0){
+    <div class="employees-grid">
+      @for(employee of employees(); track employee.id){
+        <div class="employee-card">
+          <div class="employee-info">
+            <div class="employee-avatar">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </div>
+            <h3 class="employee-name">{{ employee.fullName }}</h3>
+            
+            <div class="employee-details">
+              <div class="employee-detail">
+                <fa-icon [icon]="faEnvelope" class="icon"></fa-icon>
+                <span class="value">{{ employee.email }}</span>
+              </div>
+              <div class="employee-detail">
+                <fa-icon [icon]="faBriefcase" class="icon"></fa-icon>
+                <span class="value">{{ employee.role }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-icon btn-edit" (click)="openEditModal(employee)" title="Edit Employee">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button class="btn-icon btn-delete" (click)="deleteEmployee(employee)" title="Delete Employee">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+  @else{
+    <div class="empty-state">
+      <fa-icon [icon]="faUser" class="empty-icon"></fa-icon>
+      <h3>No Employees Found</h3>
+      <p>No employee records found for this hotel. Start by adding your first employee.</p>
+      <button class="btn-primary" (click)="openAddModal()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+        <span>Add First Employee</span>
+      </button>
+    </div>
+  }
+</div>
+
+<!-- Add/Edit Employee Modal -->
+<app-modal
+  [title]="isEditMode() ? 'Edit Employee' : 'Add New Employee'"
+  [isOpen]="isModalOpen()"
+  (close)="closeModal()"
+>
+  @if(employeeForm) {
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+      <div class="form-group">
+        <label for="fullName">Full Name *</label>
+        <input
+          type="text"
+          id="fullName"
+          formControlName="fullName"
+          placeholder="Enter employee full name"
+          [class.error]="employeeForm.get('fullName')?.invalid && employeeForm.get('fullName')?.touched"
+        />
+        @if(employeeForm.get('fullName')?.invalid && employeeForm.get('fullName')?.touched) {
+          <span class="error-message">{{ getFieldError('fullName') }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Enter email address"
+          [class.error]="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched"
+        />
+        @if(employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched) {
+          <span class="error-message">{{ getFieldError('email') }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role *</label>
+        <input
+          type="text"
+          id="role"
+          formControlName="role"
+          placeholder="Enter job role"
+          [class.error]="employeeForm.get('role')?.invalid && employeeForm.get('role')?.touched"
+        />
+        @if(employeeForm.get('role')?.invalid && employeeForm.get('role')?.touched) {
+          <span class="error-message">{{ getFieldError('role') }}</span>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="closeModal()">
+          Cancel
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="employeeForm.invalid">
+          {{ isEditMode() ? 'Update' : 'Create' }} Employee
+        </button>
+      </div>
+    </form>
+  }
+</app-modal>
+

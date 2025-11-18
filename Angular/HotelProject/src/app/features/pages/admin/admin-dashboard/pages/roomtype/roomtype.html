@@ -1,0 +1,105 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Room Types</h1>
+      <p class="page-subtitle">Manage your hotel room type categories</p>
+    </div>
+    <button class="btn-primary" (click)="initializeAddForm()">
+      <fa-icon [icon]="faPlus"></fa-icon>
+      Add Room Type
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <app-modal 
+    [isOpen]="isEditMode() || isAddMode()" 
+    [title]="isAddMode() ? 'Add New Room Type' : 'Edit Room Type'"
+    (close)="cancelEdit()">
+    @if(roomTypeForm) {
+      <form [formGroup]="roomTypeForm" (ngSubmit)="onSubmit()" class="form">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input 
+            type="text"
+            formControlName="name" 
+            class="form-input"
+            placeholder="e.g., Standard, Deluxe, Suite" 
+            required />
+          @if(roomTypeForm.get('name')?.invalid && (roomTypeForm.get('name')?.dirty || roomTypeForm.get('name')?.touched)) {
+            <div class="error-message">
+              @if(roomTypeForm.get('name')?.errors?.['required']) {
+                <span>Name is required</span>
+              }
+              @if(roomTypeForm.get('name')?.errors?.['minlength']) {
+                <span>Name must be at least 2 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea 
+            formControlName="description"
+            class="form-textarea"
+            placeholder="Describe the room type features..."
+            rows="4" 
+            required></textarea>
+          @if(roomTypeForm.get('description')?.invalid && (roomTypeForm.get('description')?.dirty || roomTypeForm.get('description')?.touched)) {
+            <div class="error-message">
+              @if(roomTypeForm.get('description')?.errors?.['required']) {
+                <span>Description is required</span>
+              }
+              @if(roomTypeForm.get('description')?.errors?.['minlength']) {
+                <span>Description must be at least 10 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="!roomTypeForm.valid">
+            {{ isAddMode() ? 'Create' : 'Update' }}
+          </button>
+        </div>
+      </form>
+    }
+  </app-modal>
+
+  <!-- Content -->
+  @if(roomTypes().length === 0) {
+    <div class="empty-state">
+      <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+      </svg>
+      <h3>No room types yet</h3>
+      <p>Get started by creating your first room type</p>
+      <button class="btn-primary" (click)="initializeAddForm()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+        Add Room Type
+      </button>
+    </div>
+  } @else {
+    <div class="grid">
+      @for(type of roomTypes(); track type.id) {
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">{{ type.typeName }}</h3>
+            <div class="card-actions">
+              <button class="btn-icon" (click)="initializeEditForm(type)" title="Edit">
+                <fa-icon [icon]="faEdit"></fa-icon>
+              </button>
+              <button class="btn-icon btn-danger" (click)="deleteRoomType(type)" title="Delete">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <p class="card-description">{{ type.description }}</p>
+        </div>
+      }
+    </div>
+  }
+</div>
+

@@ -1,0 +1,83 @@
+<div class="container">
+
+    <!-- image container -->
+     <div class="image-container">
+        <img [ngSrc]="'home.png'"
+         alt="homepage image" 
+         fill priority
+         class="home-image">
+        <div class="search-box">
+            <form [formGroup]="searchForm"  (ngSubmit)="getValues()" class="input-form">
+            <div class="search-input">
+                <div class="input-group Destination">
+                    <p>Destination</p>
+                    <input class="input " formControlName="destination" type="text" placeholder="eg : New York">
+                    @if(searchForm.controls['destination'].invalid && (searchForm.controls['destination'].dirty || searchForm.controls['destination'].touched)) {
+                        <div class="error-message">
+                           
+                            @if(searchForm.controls['destination'].errors?.['minlength']) {
+                                <p>Destination must be at least 3 characters long.</p>
+                            }
+                        </div>
+
+                    }
+                   
+                </div>
+
+                <div class="input-group Check-in">
+                    <p>Check-in Date</p>
+                    <input class="input Check-in" formControlName="checkIn" type="date">
+                    @if(searchForm.controls['checkIn'].invalid && (searchForm.controls['checkIn'].dirty || searchForm.controls['checkIn'].touched)) {
+                        <div class="error-message">
+                            
+                            @if(searchForm.controls['checkIn'].errors?.['required']) {
+                                <p>Check-in date is required.</p>
+                            }
+                            @if(searchForm.controls['checkIn'].errors?.['minDateToday']) {
+                                <p>Check-in date cannot be before today.</p>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div class="input-group Check-out">
+                    <p>Check-out Date</p>
+                    <input class="input Check-out" formControlName="checkOut" type="date">
+                    @if(searchForm.controls['checkOut'].invalid && (searchForm.controls['checkOut'].dirty || searchForm.controls['checkOut'].touched)) {
+                        <div class="error-message">
+                                @if(searchForm.controls['checkOut'].errors?.['required']) {
+                                    <p>Check-out date is required.</p>
+                                }
+                            @if(searchForm.controls['checkOut'].errors?.['checkOutBeforeCheckIn']) {
+                                <p>Check-out date must be after check-in date.</p>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <button class="search-button" type="submit" >Search</button>
+
+                </form>
+                
+        </div>
+     </div>
+
+
+     <div class="popularDestination">
+        <p class="destination-text">Popular Destinations</p>
+        <div class="destinations-list">  
+            @for (place of location(); track $index) {
+                <div class="destination">
+                    <div class="image-holder">
+
+                        <img class="destination-image" [ngSrc]="place.img" alt="{{place.name}} image" width="250" height="250" >
+                    </div>
+
+                    <p>{{place.name}}</p>
+                </div>
+            }
+        </div>
+     </div>
+</div>
+

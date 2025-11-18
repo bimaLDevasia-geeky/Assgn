@@ -1,0 +1,45 @@
+<div class="nav-container" (click)="onDocumentClick($event)">
+  <div class="nav-item" routerLink="/home">
+    <fa-icon [icon]="hotelicon" size="2x"></fa-icon>
+    <span class="second"><span class="first">Stay</span>Hub</span>
+  </div>
+
+  <div class="nav-item">
+    @if((currentUser | async) === null) {
+      <button class="sign-in-button" routerLink="/login">Sign In</button>
+    } @else {
+      <div class="user-menu">
+        <button class="user-button" (click)="toggleDropdown()">
+          <fa-icon [icon]="faUser"></fa-icon>
+          <span class="user-email">{{ (currentUser | async)?.email }}</span>
+        </button>
+        
+        @if(showDropdown()) {
+          <div class="dropdown-menu">
+            <button class="dropdown-item profile" routerLink="/profile" (click)="closeDropdown()">
+              <fa-icon [icon]="faUserCircle"></fa-icon>
+              <span>My Profile</span>
+            </button>
+            <button class="dropdown-item logout" (click)="logout()">
+              <fa-icon [icon]="faSignOutAlt"></fa-icon>
+              <span>Logout</span>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<router-outlet></router-outlet>
+
+<div class="footer">
+    <div>
+        © 2025 StayHub. All rights reserved.
+    </div>
+    <div class="footer-links">
+        <p>About</p>
+        <p>Contact</p>
+        <p>Terms of Service</p>
+    </div>
+</div>

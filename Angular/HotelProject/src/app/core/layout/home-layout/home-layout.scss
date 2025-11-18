@@ -1,0 +1,185 @@
+:host{
+    --navbar-height: 7rem;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    
+}
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.nav-container {
+    height: var(--navbar-height);
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 3rem 0 3rem;
+   
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.nav-item{
+    display: flex;
+    align-items: center;
+    color: rgb(37, 99, 235);
+    cursor: pointer;
+}
+
+.first{
+    font-weight: bold;
+    
+}
+
+.first,.second{
+    font-size: 1.5rem;
+    
+}
+
+.sign-in-button{
+    padding: 1rem 1rem 1rem 1rem;
+    border: 2px solid rgb(37, 99, 235);
+    border-radius: 1rem;
+    background-color: white;
+    color: rgb(37, 99, 235);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: rgb(37, 99, 235);
+        color: white;
+    }
+}
+
+.user-menu {
+    position: relative;
+}
+
+.user-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid rgb(37, 99, 235);
+    border-radius: 1rem;
+    background-color: white;
+    color: rgb(37, 99, 235);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: rgb(37, 99, 235);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    fa-icon {
+        font-size: 1.1rem;
+    }
+
+    .user-email {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    overflow: hidden;
+    animation: slideDown 0.2s ease-out;
+    z-index: 1000;
+
+    .dropdown-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 1.25rem;
+        border: none;
+        background: white;
+        color: #333;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+
+        fa-icon {
+            font-size: 1rem;
+        }
+
+        &:hover {
+            background: #f8f9fa;
+        }
+
+        &.profile {
+            color: rgb(37, 99, 235);
+
+            &:hover {
+                background: #eff6ff;
+            }
+        }
+
+        &.logout {
+            color: #dc3545;
+
+            &:hover {
+                background: #fff5f5;
+            }
+        }
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.footer{
+    background-color: #f8f8f8;
+    text-align: center;
+    padding: 1rem 2rem 1rem 2rem;
+    box-shadow:6px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #555;
+
+    & .footer-links{
+        
+        display: flex;
+        font-size: 1rem;
+        gap: 1rem;
+        cursor: pointer;
+
+        & p:hover{
+            color:rgb(37, 99, 235) ;
+        }
+
+    }
+
+}

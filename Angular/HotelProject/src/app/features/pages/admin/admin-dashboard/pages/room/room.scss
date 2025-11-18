@@ -1,0 +1,150 @@
+@import '../../shared-admin-styles.scss';
+
+.page-container {
+  @extend .page-container;
+}
+
+.back-btn {
+  @extend .back-btn;
+}
+
+.btn-primary {
+  @extend .btn-primary;
+}
+
+.btn-secondary {
+  @extend .btn-secondary;
+}
+
+.grid-layout {
+  @extend .grid-layout;
+}
+
+.card {
+  @extend .card;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border-light;
+
+    .room-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: $text-primary;
+    }
+  }
+
+  .card-body {
+    margin-bottom: 1rem;
+
+    .info-item {
+      @extend .info-item;
+
+      .value.price {
+        font-size: 1.25rem;
+        color: $secondary-color;
+      }
+
+      .value.status-text {
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+
+        &.text-available {
+          color: $secondary-color;
+          background: rgba(16, 185, 129, 0.1);
+        }
+
+        &.text-booked {
+          color: $warning-color;
+          background: rgba(245, 158, 11, 0.1);
+        }
+
+        &.text-maintenance {
+          color: $danger-color;
+          background: rgba(239, 68, 68, 0.1);
+        }
+      }
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid $border-light;
+    justify-content: flex-end;
+  }
+}
+
+.btn-icon {
+  @extend .btn-icon;
+
+  &.btn-edit {
+    @extend .btn-edit;
+    background: $secondary-color;
+    color: white;
+
+    &:hover {
+      background: $secondary-dark;
+    }
+  }
+
+  &.btn-delete {
+    @extend .btn-delete;
+    background: $danger-color;
+    color: white;
+
+    &:hover {
+      background: $danger-dark;
+    }
+  }
+}
+
+.status-badge {
+  @extend .status-badge;
+
+  &.status-available {
+    @extend .status-available;
+  }
+
+  &.status-booked {
+    @extend .status-booked;
+  }
+
+  &.status-maintenance {
+    @extend .status-maintenance;
+  }
+}
+
+.empty-state {
+  @extend .empty-state;
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  @extend .form-group;
+
+  select {
+    cursor: pointer;
+  }
+}
+
+.form-actions {
+  @extend .form-actions;
+}

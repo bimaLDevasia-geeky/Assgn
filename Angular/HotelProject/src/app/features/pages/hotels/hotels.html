@@ -1,0 +1,14 @@
+<div class="container">
+
+    <div class="sidebar">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="hotellist">
+        <app-hotellist 
+            [hotels]="hotels()" 
+            [loading]="loading()"
+            (sortByChanged)="onSortByChanged($event)">
+        </app-hotellist>
+    </div>
+
+</div>

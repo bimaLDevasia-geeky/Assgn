@@ -1,0 +1,23 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h2>Navigation</h2>
+    <p>Manage your hotel system</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    @for (item of option; track $index) {
+      <a [routerLink]="item.path" routerLinkActive="active" class="sidebar-link">
+        <fa-icon [icon]="item.icon" class="link-icon"></fa-icon>
+        <span class="link-text">{{ item.name }}</span>
+        <fa-icon [icon]="faChevronRight" class="link-arrow"></fa-icon>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="version-info">
+      <span class="version-label">Version</span>
+      <span class="version-number">1.0.0</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="form-container">
+      <h1 class="title">Create Account</h1>
+      <p class="subtitle">Join us today!</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            formControlName="fullName"
+            placeholder="Enter your full name"
+            [class.error]="getField('fullName')?.invalid && getField('fullName')?.touched"
+          />
+          @if(getField('fullName')?.invalid && getField('fullName')?.touched) {
+            <div class="error-message">
+              @if(getField('fullName')?.errors?.['required']) {
+                <span>Full name is required</span>
+              }
+              @if(getField('fullName')?.errors?.['minlength']) {
+                <span>Name must be at least 2 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="Enter your email"
+            [class.error]="getField('email')?.invalid && getField('email')?.touched"
+          />
+          @if(getField('email')?.invalid && getField('email')?.touched) {
+            <div class="error-message">
+              @if(getField('email')?.errors?.['required']) {
+                <span>Email is required</span>
+              }
+              @if(getField('email')?.errors?.['email']) {
+                <span>Please enter a valid email</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="Create a password"
+            [class.error]="getField('password')?.invalid && getField('password')?.touched"
+          />
+          @if(getField('password')?.invalid && getField('password')?.touched) {
+            <div class="error-message">
+              @if(getField('password')?.errors?.['required']) {
+                <span>Password is required</span>
+              }
+              @if(getField('password')?.errors?.['minlength']) {
+                <span>Password must be at least 6 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              placeholder="10-15 digits"
+              [class.error]="getField('phoneNumber')?.invalid && getField('phoneNumber')?.touched"
+            />
+            @if(getField('phoneNumber')?.invalid && getField('phoneNumber')?.touched) {
+              <div class="error-message">
+                @if(getField('phoneNumber')?.errors?.['required']) {
+                  <span>Phone number is required</span>
+                }
+                @if(getField('phoneNumber')?.errors?.['pattern']) {
+                  <span>Enter valid 10-15 digit number</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="idProofNumber">ID Proof Number</label>
+            <input
+              type="text"
+              id="idProofNumber"
+              formControlName="idProofNumber"
+              placeholder="ID/Passport number"
+              [class.error]="getField('idProofNumber')?.invalid && getField('idProofNumber')?.touched"
+            />
+            @if(getField('idProofNumber')?.invalid && getField('idProofNumber')?.touched) {
+              <div class="error-message">
+                @if(getField('idProofNumber')?.errors?.['required']) {
+                  <span>ID proof is required</span>
+                }
+                @if(getField('idProofNumber')?.errors?.['minlength']) {
+                  <span>At least 5 characters</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        @if(error() !== null) {
+          <div class="error-banner">
+            <span>{{error()}}</span>
+          </div>
+        }
+
+        <button type="submit" class="submit-btn" [disabled]="isSubmitting()">
+          @if(isSubmitting()) {
+            <span>Creating Account...</span>
+          } @else {
+            <span>Create Account</span>
+          }
+        </button>
+      </form>
+
+      <div class="footer">
+        <p>Already have an account? <a routerLink="/login">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+</div>
