@@ -23,4 +23,14 @@ public class EmployeeQueryService : IEmployeeQueryService
     {
         return await _context.Employees.ToListAsync(cancellationToken);
     }
+
+    public async Task<appDomain.Employee?> GetEmployeeByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return await _context.Employees.FirstOrDefaultAsync(e => e.Email == email, cancellationToken);
+    }
+
+    public async Task<List<appDomain.Employee>> GetEmployeeByHotelIdAsync(Guid hotelId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Employees.Where(e => e.HotelId == hotelId).ToListAsync(cancellationToken);
+    }
 }

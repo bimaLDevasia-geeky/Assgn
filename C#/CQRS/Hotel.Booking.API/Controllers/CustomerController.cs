@@ -7,6 +7,7 @@ using Hotel.Booking.Application.Command.Customer.Commands;
 
 using Microsoft.AspNetCore.Mvc;
 using appDomain = Hotel.Booking.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -22,6 +23,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<List<appDomain.Customer>>> GetAllCustomers()
         {
             GetAllCustomersQuery query = new GetAllCustomersQuery();
@@ -30,12 +32,13 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles ="Admin,Customer")]
         public async Task<ActionResult<appDomain.Customer>> GetCustomerById(Guid id)
         {
             GetCustomerByIdQuery query = new GetCustomerByIdQuery { Id = id };
-            appDomain.Customer result = await _mediator.Send(query);
+            appDomain.Customer? result = await _mediator.Send(query);
 
-            if (result == null)
+            if (result is null)
             {
                 return NotFound(new { message = "Customer not found" });
             }
@@ -63,6 +66,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteCustomer(Guid id)
         {
             try

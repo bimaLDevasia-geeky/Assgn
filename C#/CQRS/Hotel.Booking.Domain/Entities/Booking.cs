@@ -18,12 +18,13 @@ public class Booking
     public DateTime CheckOutDate { get; private set; }
     public BookingStatus Status { get; private set; }
     public decimal TotalAmount { get; private set; }
+    public string? RazorpayOrderId { get; private set; }
 
     public Customer Customer { get; private set; } = null!;
     public Room Room { get; private set; } = null!;
     public Payment Payment { get; private set; } = null!;
 
-    public static Booking Create(Guid customerId, Guid roomId, DateTime checkInDate, DateTime checkOutDate, decimal totalAmount)
+    public static Booking Create(Guid customerId, Guid roomId, DateTime checkInDate, DateTime checkOutDate, decimal totalAmount, string razorpayOrderId)
     {
         return new Booking
         {
@@ -32,6 +33,7 @@ public class Booking
             CheckInDate = checkInDate,
             CheckOutDate = checkOutDate,
             TotalAmount = totalAmount,
+            RazorpayOrderId = razorpayOrderId,
             Status = BookingStatus.Pending
         };
     }

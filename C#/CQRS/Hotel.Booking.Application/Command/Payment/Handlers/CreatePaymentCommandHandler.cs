@@ -23,7 +23,7 @@ namespace Hotel.Booking.Application.Command.Payment.Handlers
             domain.Payment payment = domain.Payment.Create(
                 request.BookingId,
                 request.Amount,
-                request.PaymentMethod
+                request.TransactionId
             );
             
             await _paymentRepository.AddAsync(payment);

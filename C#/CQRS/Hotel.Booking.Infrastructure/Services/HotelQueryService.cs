@@ -26,4 +26,14 @@ public class HotelQueryService : IHotelQueryService
             .Include(h => h.Employees)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<IQueryable<appDomain.Hotel>> GetHotelsAsQuerable(CancellationToken cancellationToken = default)
+    {
+        return _context.Hotels.Include(h=>h.Reviews).Include(h => h.Rooms).ThenInclude(r=>r.Bookings).AsQueryable();
+    }
+
+    public async Task<List<appDomain.Hotel>> ExecuteHotelQueryAsync(IQueryable<appDomain.Hotel> query, CancellationToken cancellationToken = default)
+    {
+        return await query.ToListAsync(cancellationToken);
+    }
 }

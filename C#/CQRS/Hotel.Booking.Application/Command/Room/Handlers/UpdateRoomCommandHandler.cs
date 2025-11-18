@@ -26,7 +26,7 @@ namespace Hotel.Booking.Application.Command.Room.Handlers
                 throw new KeyNotFoundException("Room not found");
             }
             
-            room.UpdateDetails(request.RoomNumber, request.RoomTypeId, request.HotelId, request.PricePerNight);
+            room.UpdateDetails(request.RoomNumber, request.RoomTypeId, request.HotelId, request.PricePerNight, request.Status);
             await _unitOfWork.SaveChangesAsync(ct);
             return room;
         }

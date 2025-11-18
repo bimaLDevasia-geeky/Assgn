@@ -23,4 +23,10 @@ public class BookingQueryService : IBookingQueryService
     {
         return await _context.Bookings.ToListAsync(cancellationToken);
     }
+    public async Task<List<appDomain.Booking>> GetBookingsByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Bookings
+            .Where(b => b.CustomerId == customerId)
+            .ToListAsync(cancellationToken);
+    }
 }

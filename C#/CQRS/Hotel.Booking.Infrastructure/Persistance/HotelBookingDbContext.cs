@@ -22,6 +22,7 @@ namespace Hotel.Booking.Infrastructure.Persistance
         public DbSet<AppDomain.Payment> Payments { get; set; }
         public DbSet<AppDomain.Employee> Employees { get; set; }
         public DbSet<AppDomain.Review> Reviews { get; set; }
+        public DbSet<AppDomain.RefreshToken> RefreshTokens { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -56,6 +57,13 @@ namespace Hotel.Booking.Infrastructure.Persistance
                 .Property(e => e.Id)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<AppDomain.Employee>()
+                .HasOne(e => e.Hotel)
+                .WithMany(h => h.Employees)
+                .HasForeignKey(e => e.HotelId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<AppDomain.Review>()
                 .Property(r => r.Id)
                 .ValueGeneratedOnAdd();
@@ -68,6 +76,8 @@ namespace Hotel.Booking.Infrastructure.Persistance
                 .Property(b => b.TotalAmount)
                 .HasColumnType("decimal(18,2)");
 
+                
+
             modelBuilder.Entity<AppDomain.Room>()
                 .Property(r => r.PricePerNight)
                 .HasColumnType("decimal(18,2)");
@@ -75,6 +85,31 @@ namespace Hotel.Booking.Infrastructure.Persistance
             modelBuilder.Entity<AppDomain.Payment>()
                 .Property(p => p.Amount)
                 .HasColumnType("decimal(18,2)");
+
+            // RefreshToken Configuration
+            modelBuilder.Entity<AppDomain.RefreshToken>()
+                .Property(rt => rt.Id)
+                .ValueGeneratedOnAdd();
+
+            // RefreshToken - Employee relationship (optional)
+            modelBuilder.Entity<AppDomain.RefreshToken>()
+                .HasOne(rt => rt.Employee)
+                .WithMany(e => e.RefreshTokens)
+                .HasForeignKey(rt => rt.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
+
+            // RefreshToken - Customer relationship (optional)
+            modelBuilder.Entity<AppDomain.RefreshToken>()
+                .HasOne(rt => rt.Customer)
+                .WithMany(c => c.RefreshTokens)
+                .HasForeignKey(rt => rt.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
+
+            modelBuilder.Entity<AppDomain.RefreshToken>()
+                .HasIndex(rt => rt.Token)
+                .IsUnique();
             
 
         }

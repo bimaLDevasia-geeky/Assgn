@@ -16,7 +16,7 @@ public class UpdateHotelCommandHandler(IHotelRepository _hotelrepository,IUnitOf
                 {
                     throw new KeyNotFoundException("Hotel Not found");
                 }
-                hotel.UpdateDetails(request.Name, request.Address, request.City, request.Country, request.PhoneNumber);
+                hotel.UpdateDetails(request.Name, request.Address, request.City, request.Country, request.PhoneNumber, request.StarRating);
                 await _unitofwork.SaveChangesAsync();
                 return hotel;
             }

@@ -10,9 +10,10 @@ namespace Hotel.Booking.Application.Command.Customer.Commands
     {
         [JsonIgnore]
         public Guid Id { get; set; }
-        public string FullName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
-        public string IdProofNumber { get; set; } = null!;
+        public string? FullName { get; set; } = null!;
+        public string? Email { get; set; } = null!;
+        public string? PhoneNumber { get; set; } = null!;
+        public string? IdProofNumber { get; set; } = null!;
+        public string? PasswordHash { get; set; } = null!;
     }
 }

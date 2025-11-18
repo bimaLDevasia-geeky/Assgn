@@ -20,11 +20,15 @@ namespace Hotel.Booking.Application.Command.Employee.Handlers
 
         public async Task<Guid> Handle(CreateEmployeeCommand request, CancellationToken ct)
         {
+
+            
             domain.Employee employee = domain.Employee.Create(
                 request.FullName,
                 request.Email,
                 request.Role,
-                request.HotelId
+                request.HotelId,
+                string.Empty
+
             );
             
             await _employeeRepository.AddAsync(employee);

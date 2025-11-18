@@ -13,8 +13,10 @@ public class RefreshToken
     public DateTime Created { get; set; }
     public bool IsRevoked { get; set; } 
     
+    // Support both Employee and Customer
+    public Guid? EmployeeId { get; set; }    
+    public Employee? Employee { get; set; }
     
-    public Guid EmployeeId { get; set; }    
-
-    public Employee Employee { get; set; } = null!;    
+    public Guid? CustomerId { get; set; }
+    public Customer? Customer { get; set; }    
 }

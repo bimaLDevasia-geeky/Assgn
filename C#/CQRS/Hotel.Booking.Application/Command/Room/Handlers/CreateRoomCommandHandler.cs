@@ -24,7 +24,8 @@ namespace Hotel.Booking.Application.Command.Room.Handlers
                 request.RoomNumber,
                 request.HotelId,
                 request.RoomTypeId,
-                request.PricePerNight
+                request.PricePerNight,
+                request.Status
             );
             
             await _roomRepository.AddAsync(room);

@@ -9,6 +9,7 @@ using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using Hotel.Booking.Application.Interfaces;
+using System.Security.Claims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,8 @@ builder.Services.AddCors(options =>
                       {
                           policy.WithOrigins("http://localhost:4200") // Your Angular app's URL
                                 .AllowAnyHeader()
-                                .AllowAnyMethod();
+                                .AllowAnyMethod()
+                                .AllowCredentials();
                       });
 });
 
@@ -59,8 +61,9 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-// builder.Services.AddScoped<ITokenRepository, TokenRepository>();
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Register Query Services
 builder.Services.AddScoped<IHotelQueryService, HotelQueryService>();
@@ -71,19 +74,22 @@ builder.Services.AddScoped<IPaymentQueryService, PaymentQueryService>();
 builder.Services.AddScoped<IReviewQueryService, ReviewQueryService>();
 builder.Services.AddScoped<IRoomQueryService, RoomQueryService>();
 builder.Services.AddScoped<IRoomTypeQueryService, RoomTypeQueryService>();
+builder.Services.AddScoped<IPaymentService, RazorpayService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+            RoleClaimType = ClaimTypes.Role
         };
     });
 

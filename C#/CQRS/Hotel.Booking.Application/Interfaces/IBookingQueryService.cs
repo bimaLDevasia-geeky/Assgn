@@ -6,4 +6,6 @@ public interface IBookingQueryService
 {
     Task<appDomain.Booking?> GetBookingByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<List<appDomain.Booking>> GetAllBookingsAsync(CancellationToken cancellationToken = default);
+
+    Task<List<appDomain.Booking>> GetBookingsByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default);
 }

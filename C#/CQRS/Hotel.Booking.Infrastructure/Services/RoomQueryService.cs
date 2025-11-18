@@ -16,7 +16,7 @@ public class RoomQueryService : IRoomQueryService
 
     public async Task<appDomain.Room?> GetRoomByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Rooms.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        return await _context.Rooms.Include(r => r.RoomType).Include(r => r.Hotel).Include(r => r.Bookings).FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
     }
 
     public async Task<List<appDomain.Room>> GetAllRoomsAsync(CancellationToken cancellationToken = default)
@@ -29,6 +29,8 @@ public class RoomQueryService : IRoomQueryService
         return await _context.Rooms
             .Where(r => r.HotelId == hotelId)
             .Include(r => r.RoomType)
+            .Include(r => r.Hotel)
+            .Include(r => r.Bookings)
             .ToListAsync(cancellationToken);
     }
 }

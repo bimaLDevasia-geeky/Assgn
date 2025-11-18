@@ -25,8 +25,8 @@ namespace Hotel.Booking.Application.Command.Customer.Handlers
             {
                 throw new KeyNotFoundException("Customer not found");
             }
-            
-            customer.UpdateDetails(request.FullName, request.Email, request.PhoneNumber, request.IdProofNumber);
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
+            customer.UpdateDetails(request.FullName, request.Email, request.PhoneNumber, request.IdProofNumber, passwordHash);
             await _unitOfWork.SaveChangesAsync(ct);
             return customer;
         }

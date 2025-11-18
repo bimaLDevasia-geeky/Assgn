@@ -7,6 +7,7 @@ using Hotel.Booking.Application.Query.Hotel;
 using Microsoft.AspNetCore.Mvc;
 using appDomain = Hotel.Booking.Domain.Entities;
 using Hotel.Booking.Application.Query;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -15,15 +16,17 @@ namespace Hotel.Booking.API.Controllers
     public class HotelController(IMediator _mediator) : ControllerBase
     {
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<List<appDomain.Hotel>>> GetAllHotels()
         {
             GetAllHotelQuery query = new GetAllHotelQuery();
-            List<appDomain.Hotel> hotels =  await _mediator.Send(query);
+            List<appDomain.Hotel> hotels = await _mediator.Send(query);
             return Ok(hotels);
         }
 
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateHotel([FromBody] CreateHotelCommand command)
         {
             Guid Id = await _mediator.Send(command);
@@ -32,6 +35,7 @@ namespace Hotel.Booking.API.Controllers
 
 
         [HttpGet("{id}")]
+       
         public async Task<ActionResult<appDomain.Hotel>> GetHotel(Guid id)
         {
             GetHotelByIdQuery query = new GetHotelByIdQuery { Id = id };
@@ -41,6 +45,7 @@ namespace Hotel.Booking.API.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<appDomain.Hotel>> UpdateHotel(Guid id, [FromBody] UpdateHotelCommand command)
         {
             try
@@ -56,6 +61,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteHotel(Guid id)
         {
             DeleteHotelCommand command = new DeleteHotelCommand { Id = id };
@@ -67,7 +73,20 @@ namespace Hotel.Booking.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("filter")]
+       
+        public async Task<ActionResult<List<FilterHotelResponse>>> GetHotelsBasedOnFilters([FromQuery] GetHotelBasedOnFiltersQuery query)
+        {
+            try
+            {
+                List<FilterHotelResponse> hotels = await _mediator.Send(query);
+                return Ok(hotels);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
 
     }
-
 }

@@ -21,7 +21,7 @@ public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand, Gui
         {
             appDomain.Hotel hotel = appDomain.Hotel.Create(request.Name,
                 request.Address, request.City, request.PhoneNumber,
-                request.Country);
+                request.Country, request.StarRating);
             await _hotelRepository.AddAsync(hotel);
             await _unitOfWork.SaveChangesAsync(ct);
             return hotel.Id;

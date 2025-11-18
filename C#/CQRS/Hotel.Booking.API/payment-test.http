@@ -1,0 +1,18 @@
+### Test Payment Confirmation
+POST http://localhost:5103/api/payment/confirm
+Content-Type: application/json
+
+{
+  "bookingId": "YOUR_BOOKING_ID_HERE",
+  "paymentId": "pay_XXXXXXXXXXXX",
+  "orderId": "order_XXXXXXXXXXXX",
+  "signature": "RAZORPAY_SIGNATURE_HERE"
+}
+
+### Notes:
+# 1. Replace YOUR_BOOKING_ID_HERE with an actual booking GUID
+# 2. The paymentId, orderId, and signature should come from Razorpay's response
+# 3. In your frontend, after Razorpay payment success, you'll receive:
+#    - razorpay_payment_id (use as paymentId)
+#    - razorpay_order_id (use as orderId)
+#    - razorpay_signature (use as signature)

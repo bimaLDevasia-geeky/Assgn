@@ -5,6 +5,7 @@ using Hotel.Booking.Application.Query.RoomType;
 
 using Microsoft.AspNetCore.Mvc;
 using domain = Hotel.Booking.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -13,6 +14,7 @@ namespace Hotel.Booking.API.Controllers
     public class RoomTypeController(IMediator _mediator) : ControllerBase
     {
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateRoomType([FromBody] CreateRoomTypeCommand command)
         {
             Guid id = await _mediator.Send(command);
@@ -42,6 +44,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<domain.RoomType>> UpdateRoomType(Guid id, [FromBody] UpdateRoomTypeCommand command)
         {
             try
@@ -61,6 +64,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteRoomType(Guid id)
         {
             try

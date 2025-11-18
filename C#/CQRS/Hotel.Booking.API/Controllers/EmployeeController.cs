@@ -4,6 +4,7 @@ using Hotel.Booking.Application.Query.Employee;
 
 using Microsoft.AspNetCore.Mvc;
 using domain = Hotel.Booking.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -19,6 +20,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<List<domain.Employee>>> GetAllEmployees()
         {
             GetAllEmployeesQuery query = new GetAllEmployeesQuery();
@@ -27,12 +29,13 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<domain.Employee>> GetEmployeeById(Guid id)
         {
             GetEmployeeByIdQuery query = new GetEmployeeByIdQuery { Id = id };
-            domain.Employee result = await _mediator.Send(query);
+            domain.Employee? result = await _mediator.Send(query);
 
-            if (result == null)
+            if (result is null)
             {
                 return NotFound(new { message = "Employee not found" });
             }
@@ -41,6 +44,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<domain.Employee>> UpdateEmployee(Guid id, [FromBody] UpdateEmployeeCommand command)
         {
             try
@@ -60,6 +64,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteEmployee(Guid id)
         {
             try
@@ -71,6 +76,32 @@ namespace Hotel.Booking.API.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("byhotel")]
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult<List<domain.Employee>>> GetEmployeeByHotelId([FromQuery] Guid hotelId)
+        {
+            GetEmployeeByHotelIdQuery query = new GetEmployeeByHotelIdQuery { HotelId = hotelId };
+            try
+            {
+                List<domain.Employee> result = await _mediator.Send(query);
+
+                if (result is null)
+                {
+                    return NotFound(new { message = "Employee not found for the given Hotel ID" });
+                }
+
+                return Ok(result);
+            }
+            catch(UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
             }
             catch (Exception ex)
             {

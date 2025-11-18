@@ -22,18 +22,22 @@ public class Payment
     public decimal Amount { get; private set; }
     public DateTime PaymentDate { get; private set; }
     public PaymentMethod PaymentMethod { get; private set; }
+    public string PaymentId { get; private set; } = null!;
+    public bool IsSuccessful { get; private set; }
     public PaymentStatus Status { get; private set; }
 
     public Booking Booking { get; private set; } = null!;
 
-    public static Payment Create(Guid bookingId, decimal amount, PaymentMethod paymentMethod)
+    public static Payment Create(Guid bookingId, decimal amount,string paymentId)
     {
         return new Payment
         {
             BookingId = bookingId,
             Amount = amount,
             PaymentDate = DateTime.UtcNow,
-            PaymentMethod = paymentMethod,
+            PaymentMethod = PaymentMethod.Online,
+            IsSuccessful = true,
+            PaymentId = paymentId,
             Status = PaymentStatus.Pending
         };
     }

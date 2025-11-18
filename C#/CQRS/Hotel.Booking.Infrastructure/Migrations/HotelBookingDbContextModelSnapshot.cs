@@ -37,6 +37,9 @@ namespace Hotel.Booking.Infrastructure.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("RazorpayOrderId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("RoomId")
                         .HasColumnType("uniqueidentifier");
 
@@ -73,6 +76,10 @@ namespace Hotel.Booking.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,7 +103,7 @@ namespace Hotel.Booking.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("HotelId")
+                    b.Property<Guid?>("HotelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PasswordHash")
@@ -140,6 +147,9 @@ namespace Hotel.Booking.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("StarRating")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Hotels");
@@ -157,8 +167,15 @@ namespace Hotel.Booking.Infrastructure.Migrations
                     b.Property<Guid>("BookingId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsSuccessful")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
@@ -185,7 +202,10 @@ namespace Hotel.Booking.Infrastructure.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("EmployeeId")
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Expires")
@@ -196,13 +216,18 @@ namespace Hotel.Booking.Infrastructure.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("RefreshToken");
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Review", b =>
@@ -313,8 +338,7 @@ namespace Hotel.Booking.Infrastructure.Migrations
                     b.HasOne("Hotel.Booking.Domain.Entities.Hotel", "Hotel")
                         .WithMany("Employees")
                         .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Hotel");
                 });
@@ -332,11 +356,17 @@ namespace Hotel.Booking.Infrastructure.Migrations
 
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.RefreshToken", b =>
                 {
+                    b.HasOne("Hotel.Booking.Domain.Entities.Customer", "Customer")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Hotel.Booking.Domain.Entities.Employee", "Employee")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Employee");
                 });
@@ -350,7 +380,7 @@ namespace Hotel.Booking.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Hotel.Booking.Domain.Entities.Hotel", "Hotel")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -388,6 +418,8 @@ namespace Hotel.Booking.Infrastructure.Migrations
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Employee", b =>
@@ -398,6 +430,8 @@ namespace Hotel.Booking.Infrastructure.Migrations
             modelBuilder.Entity("Hotel.Booking.Domain.Entities.Hotel", b =>
                 {
                     b.Navigation("Employees");
+
+                    b.Navigation("Reviews");
 
                     b.Navigation("Rooms");
                 });

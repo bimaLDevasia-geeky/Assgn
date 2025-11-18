@@ -9,6 +9,6 @@ namespace Hotel.Booking.Application.Command.Payment.Commands
     {
         public Guid BookingId { get; set; }
         public decimal Amount { get; set; }
-        public domain.PaymentMethod PaymentMethod { get; set; }
+        public string TransactionId { get; set; }=null!;
     }
 }

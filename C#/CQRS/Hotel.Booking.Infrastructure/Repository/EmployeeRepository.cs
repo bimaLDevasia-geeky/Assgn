@@ -17,7 +17,7 @@ namespace Hotel.Booking.Infrastructure.Repository
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<List<domain.Employee>> GetAllAsync()
+        public async Task<List<domain.Employee>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _context.Employees
                 .Include(e => e.Hotel)

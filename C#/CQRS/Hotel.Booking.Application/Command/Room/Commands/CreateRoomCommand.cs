@@ -12,5 +12,6 @@ namespace Hotel.Booking.Application.Command.Room.Commands
         public Guid HotelId { get; set; }
         public Guid RoomTypeId { get; set; }
         public decimal PricePerNight { get; set; }
+        public domain.RoomStatus Status { get; set; }
     }
 }

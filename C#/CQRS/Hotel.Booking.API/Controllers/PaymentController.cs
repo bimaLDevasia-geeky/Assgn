@@ -6,7 +6,8 @@ using Hotel.Booking.Application.Command.Payment.Commands;
 
 
 using Microsoft.AspNetCore.Mvc;
-using domain = Hotel.Booking.Domain.Entities;
+using appDomain = Hotel.Booking.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -22,18 +23,18 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<domain.Payment>>> GetAllPayments()
+        public async Task<ActionResult<List<appDomain.Payment>>> GetAllPayments()
         {
             GetAllPaymentsQuery query = new GetAllPaymentsQuery();
-            List<domain.Payment> result = await _mediator.Send(query);
+            List<appDomain.Payment> result = await _mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<domain.Payment>> GetPaymentById(Guid id)
+        public async Task<ActionResult<appDomain.Payment>> GetPaymentById(Guid id)
         {
             GetPaymentByIdQuery query = new GetPaymentByIdQuery { Id = id };
-            domain.Payment? result = await _mediator.Send(query);
+            appDomain.Payment? result = await _mediator.Send(query);
 
             if (result is null)
             {
@@ -44,12 +45,12 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<domain.Payment>> UpdatePayment(Guid id, [FromBody] UpdatePaymentCommand command)
+        public async Task<ActionResult<appDomain.Payment>> UpdatePayment(Guid id, [FromBody] UpdatePaymentCommand command)
         {
             try
             {
                 command.Id = id;
-                domain.Payment payment = await _mediator.Send(command);
+                appDomain.Payment payment = await _mediator.Send(command);
                 return Ok(payment);
             }
             catch (KeyNotFoundException ex)
@@ -79,6 +80,42 @@ namespace Hotel.Booking.API.Controllers
             {
                 return StatusCode(500, new { message = ex.Message });
             }
+        }
+
+        [HttpPost("confirm")]
+        [Authorize(Roles ="Customer")]
+        public async Task<IActionResult> ConfirmPayment([FromBody] ConfirmPaymentCommand command)
+        {
+            Console.WriteLine("=== PaymentController.ConfirmPayment START ===");
+            try
+            {
+            // Log the received values for debugging
+           
+            
+            bool result = await _mediator.Send(command);
+            if (result)
+            {
+                Console.WriteLine("SUCCESS: Payment confirmed");
+                return Ok(new { message = "Payment confirmed successfully" });
+            }
+            else
+            {
+                Console.WriteLine("FAILURE: Payment confirmation returned false");
+                return BadRequest(new { message = "Payment confirmation failed" });
+            }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"EXCEPTION in ConfirmPayment: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                Console.WriteLine("=== PaymentController.ConfirmPayment END (ERROR) ===");
+                return StatusCode(500, new { 
+                    message = ex.Message,
+                    details = ex.InnerException?.Message ?? "No inner exception"
+                });
+                
+            }
+            
         }
     }
 }

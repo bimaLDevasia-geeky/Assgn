@@ -23,4 +23,8 @@ public class CustomerQueryService : ICustomerQueryService
     {
         return await _context.Customers.ToListAsync(cancellationToken);
     }
+    public async Task<appDomain.Customer?> GetCustomerByEmailAsync(string email,CancellationToken cancellationToken = default)
+    {
+        return await _context.Customers.FirstOrDefaultAsync(c=>c.Email == email,cancellationToken);
+    }
 }

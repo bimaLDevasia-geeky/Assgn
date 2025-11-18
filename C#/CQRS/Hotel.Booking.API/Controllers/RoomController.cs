@@ -6,6 +6,7 @@ using Hotel.Booking.Application.Query.Room;
 using Microsoft.AspNetCore.Mvc;
 using domain = Hotel.Booking.Domain.Entities;
 using Hotel.Booking.Application;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hotel.Booking.API.Controllers
 {
@@ -14,6 +15,7 @@ namespace Hotel.Booking.API.Controllers
     public class RoomController(IMediator _mediator) : ControllerBase
     {
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateRoom([FromBody] CreateRoomCommand command)
         {
             Guid id = await _mediator.Send(command);
@@ -52,6 +54,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<domain.Room>> UpdateRoom(Guid id, [FromBody] UpdateRoomCommand command)
         {
             try
@@ -71,6 +74,7 @@ namespace Hotel.Booking.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteRoom(Guid id)
         {
             try
@@ -82,6 +86,30 @@ namespace Hotel.Booking.API.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<domain.Room>>> GetRoomsByHotelIdWithFilters(
+            [FromQuery] Guid hotelId,
+            [FromQuery] DateTime checkIn,
+            [FromQuery] DateTime checkOut)
+        {
+            try
+            {
+                GetRoomsByHotelIdWithFiltersQuery query = new GetRoomsByHotelIdWithFiltersQuery
+                {
+                    HotelId = hotelId,
+                    CheckIn = checkIn,
+                    CheckOut = checkOut,
+                };
+
+                List<domain.Room> rooms = await _mediator.Send(query);
+                return Ok(rooms);
             }
             catch (Exception ex)
             {

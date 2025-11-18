@@ -19,6 +19,7 @@ namespace Hotel.Booking.Application.Command.Hotel.Commands
         public string City { get; set; } = null!;
         public string Country { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
+        public int? StarRating { get; set; } = 3; // Default to 3 stars
     }
 
     
