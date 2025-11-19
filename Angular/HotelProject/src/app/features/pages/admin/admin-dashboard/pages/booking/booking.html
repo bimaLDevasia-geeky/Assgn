@@ -1,0 +1,54 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1>Booking Management</h1>
+      <p>View and manage customer bookings</p>
+    </div>
+  </div>
+
+  @if(loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading bookings...</p>
+    </div>
+  } @else {
+    @if(bookings().length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">📅</div>
+        <h3>No Bookings Yet</h3>
+        <p>No booking records found in the system</p>
+      </div>
+    } @else {
+      <div class="grid-layout">
+        @for(booking of bookings(); track booking.id) {
+          <div class="card">
+            <div class="card-header">
+              <span class="booking-id">#{{ booking.id.substring(0, 8) }}</span>
+              <span [class]="'status-badge ' + getStatusClass(booking.status)">
+                {{ booking.status }}
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="detail-row">
+                <span class="label">Customer ID</span>
+                <span class="value">{{ booking.customerId }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Room ID</span>
+                <span class="value">{{ booking.roomId }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Check-In</span>
+                <span class="value">{{ booking.checkInDate | date:'short' }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Check-Out</span>
+                <span class="value">{{ booking.checkOutDate | date:'short' }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

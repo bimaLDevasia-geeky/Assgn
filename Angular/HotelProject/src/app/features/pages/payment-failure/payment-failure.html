@@ -1,0 +1,26 @@
+<div class="failure-container">
+  <div class="failure-card">
+    <div class="failure-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </div>
+    
+    <h1>Payment Failed</h1>
+    <p class="failure-message">{{ errorMessage() }}</p>
+    
+    <p class="info">
+      Don't worry! No charges were made to your account. 
+      Please try again or contact support if the problem persists.
+    </p>
+    
+    <div class="actions">
+      <button class="btn-primary" (click)="tryAgain()">
+        Try Again
+      </button>
+      <button class="btn-secondary" (click)="goToHome()">
+        Go to Home
+      </button>
+    </div>
+  </div>
+</div>

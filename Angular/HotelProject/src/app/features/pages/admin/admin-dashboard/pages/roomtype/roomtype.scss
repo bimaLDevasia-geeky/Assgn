@@ -1,0 +1,113 @@
+@import '../../shared-admin-styles.scss';
+
+.page-container {
+  @extend .page-container;
+}
+
+.btn-primary {
+  @extend .btn-primary;
+}
+
+.btn-secondary {
+  @extend .btn-secondary;
+}
+
+.btn-icon {
+  @extend .btn-icon;
+
+  &.btn-danger {
+    @extend .btn-delete;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  @extend .form-group;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $text-secondary;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-sm;
+  font-size: 0.95rem;
+  color: $text-primary;
+  transition: all $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-light;
+  }
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.form-actions {
+  @extend .form-actions;
+}
+
+.grid {
+  @extend .grid-layout;
+}
+
+.card {
+  @extend .card;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.card-description {
+  font-size: 0.95rem;
+  color: $text-tertiary;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.empty-state {
+  @extend .empty-state;
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    color: $text-light;
+    margin-bottom: 1rem;
+  }
+}

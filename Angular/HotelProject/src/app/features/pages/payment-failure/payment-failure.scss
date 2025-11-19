@@ -1,0 +1,110 @@
+.failure-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+  padding: 2rem;
+
+  .failure-card {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+    .failure-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 2rem;
+      background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: shake 0.5s ease-out;
+
+      svg {
+        width: 50px;
+        height: 50px;
+        color: white;
+        stroke-width: 3;
+      }
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 0.5rem;
+    }
+
+    .failure-message {
+      font-size: 1.1rem;
+      color: #e53e3e;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .info {
+      color: #718096;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      background: #f7fafc;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #4a5568;
+        border: 2px solid #e2e8f0;
+
+        &:hover {
+          background: #f7fafc;
+        }
+      }
+    }
+  }
+
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(5px);
+    }
+  }
+}

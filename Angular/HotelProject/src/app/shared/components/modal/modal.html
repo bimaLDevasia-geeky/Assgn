@@ -1,0 +1,15 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onOverlayClick()">
+    <div class="modal-container" (click)="onContentClick($event)">
+      <div class="modal-header">
+        <h2 class="modal-title">{{ title }}</h2>
+        <button class="modal-close" (click)="onClose()" type="button">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+}

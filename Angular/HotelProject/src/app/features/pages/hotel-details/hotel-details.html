@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">← Back to Hotels</button>
+    <h1 class="title">Available Rooms</h1>
+  </div>
+
+ 
+    @if(rooms().length === 0) {
+      <div class="no-results">No rooms available for this hotel.</div>
+    } @else {
+      <div class="rooms-list">
+        @for(room of rooms(); track room.id) {
+          <div class="room-card">
+            <div class="room-image">
+              <img [src]=" 'room.png'" [alt]="room.roomType" />
+              @if(room.status !== 'Available') {
+                <div class="unavailable-badge">Not Available</div>
+              }
+            </div>
+
+            <div class="room-content">
+              <div class="room-info">
+                <h3 class="room-type">{{ room.roomNumber }}</h3>
+                <p class="room-description">{{ room.roomType.description }}</p>
+                
+                <div class="room-details">
+                  <span class="capacity">👥 Capacity: {{ room.roomType.capacity }} guests</span>
+                </div>
+
+               
+              </div>
+
+              <div class="room-pricing">
+                <div class="price-info">
+                  <p class="price">${{ room.pricePerNight }}</p>
+                  <p class="price-label">per night</p>
+                </div>
+                
+                <button 
+                  class="book-btn" 
+                  [disabled]="room.status !== 'Available'"
+                  (click)="bookRoom(room.id)">
+                  {{ room.status === 'Available' ? 'Book Now' : room.status }}
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+ 
+</div>

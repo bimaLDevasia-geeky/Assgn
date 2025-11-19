@@ -1,0 +1,169 @@
+<div class="hotel-container">
+  <div class="page-header">
+    <h1>Manage Hotels</h1>
+    <button class="btn-add" (click)="intialiseAddForm()">
+      <fa-icon [icon]="faAdd"></fa-icon>
+      <span>Add Hotel</span>
+    </button>
+  </div>
+
+  <app-modal
+    [isOpen]="isAddMode() || isEditMode()"
+    [title]="isAddMode() ? 'Add New Hotel' : 'Edit Hotel'"
+    (close)="cancelEdit()"
+    size="medium">
+    @if(hotelform) {
+      <form [formGroup]="hotelform" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Hotel Name</label>
+          <input formControlName="name" placeholder="Enter hotel name" />
+          @if(hotelform.get('name')?.invalid && (hotelform.get('name')?.dirty || hotelform.get('name')?.touched)) {
+            <div class="error-message">
+              @if(hotelform.get('name')?.errors?.['required']) {
+                <span>Hotel name is required</span>
+              }
+              @if(hotelform.get('name')?.errors?.['minlength']) {
+                <span>Hotel name must be at least 3 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input formControlName="phoneNumber" placeholder="+1 234 567 8900" />
+          @if(hotelform.get('phoneNumber')?.invalid && (hotelform.get('phoneNumber')?.dirty || hotelform.get('phoneNumber')?.touched)) {
+            <div class="error-message">
+              @if(hotelform.get('phoneNumber')?.errors?.['required']) {
+                <span>Phone number is required</span>
+              }
+              @if(hotelform.get('phoneNumber')?.errors?.['pattern']) {
+                <span>Phone number must be 10-15 digits</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Address</label>
+          <input formControlName="address" placeholder="Street Address" />
+          @if(hotelform.get('address')?.invalid && (hotelform.get('address')?.dirty || hotelform.get('address')?.touched)) {
+            <div class="error-message">
+              @if(hotelform.get('address')?.errors?.['required']) {
+                <span>Address is required</span>
+              }
+              @if(hotelform.get('address')?.errors?.['minlength']) {
+                <span>Address must be at least 5 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>City</label>
+          <input formControlName="city" placeholder="City" />
+          @if(hotelform.get('city')?.invalid && (hotelform.get('city')?.dirty || hotelform.get('city')?.touched)) {
+            <div class="error-message">
+              @if(hotelform.get('city')?.errors?.['required']) {
+                <span>City is required</span>
+              }
+              @if(hotelform.get('city')?.errors?.['minlength']) {
+                <span>City must be at least 2 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Country</label>
+          <input formControlName="country" placeholder="Country" />
+          @if(hotelform.get('country')?.invalid && (hotelform.get('country')?.dirty || hotelform.get('country')?.touched)) {
+            <div class="error-message">
+              @if(hotelform.get('country')?.errors?.['required']) {
+                <span>Country is required</span>
+              }
+              @if(hotelform.get('country')?.errors?.['minlength']) {
+                <span>Country must be at least 2 characters</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Star Rating</label>
+          <input formControlName="starRating" type="number" min="1" max="5" placeholder="1-5" />
+          @if(hotelform.get('starRating')?.invalid && (hotelform.get('starRating')?.dirty || hotelform.get('starRating')?.touched)) {
+            <div class="error-message">
+              @if(hotelform.get('starRating')?.errors?.['required']) {
+                <span>Star rating is required</span>
+              }
+              @if(hotelform.get('starRating')?.errors?.['min'] || hotelform.get('starRating')?.errors?.['max']) {
+                <span>Star rating must be between 1 and 5</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-submit" [disabled]="hotelform.invalid">
+            {{ isAddMode() ? 'Add Hotel' : 'Update Hotel' }}
+          </button>
+          <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </form>
+    }
+  </app-modal>
+
+  @if(hotels().length > 0) {
+    <div class="hotels-grid">
+      @for (hotel of hotels(); track hotel.id) {
+        <div class="hotel-card">
+          <div class="card-header">
+            <div class="hotel-name">{{ hotel.name }}</div>
+            <div class="star-rating">
+              @for(star of [1,2,3,4,5]; track star) {
+                <span class="star" [class.filled]="star <= (hotel.starRating || 0)"></span>
+              }
+            </div>
+          </div>
+
+          <div class="hotel-details">
+            <div class="detail-item">
+              <span class="icon"></span>
+              <span class="value">{{ hotel.phoneNumber }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="icon"></span>
+              <span class="value">{{ hotel.address }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="icon"></span>
+              <span class="value">{{ hotel.city }}, {{ hotel.country }}</span>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-view" (click)="viewRooms(hotel.id)">
+              View Rooms 
+            </button>
+            <button class="btn-view" (click)="viewEmployees(hotel.id)">
+              Employees 
+            </button>
+
+            <button class="btn-edit" (click)="intialiseEditForm(hotel)">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button class="btn-delete" (click)="deleteHotel(hotel)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <h3>No Hotels Yet</h3>
+      <p>Click the "Add Hotel" button to create your first hotel</p>
+    </div>
+  }
+</div>

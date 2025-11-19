@@ -1,0 +1,38 @@
+<div class="success-container">
+  <div class="success-card">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    
+    <h1>Payment Successful!</h1>
+    <p class="success-message">Your booking has been confirmed</p>
+    
+    <div class="details">
+      @if(bookingId()) {
+        <div class="detail-row">
+          <span class="label">Booking ID:</span>
+          <span class="value">{{ bookingId() }}</span>
+        </div>
+      }
+      @if(paymentId()) {
+        <div class="detail-row">
+          <span class="label">Payment ID:</span>
+          <span class="value">{{ paymentId() }}</span>
+        </div>
+      }
+    </div>
+    
+    <p class="info">A confirmation email has been sent to your registered email address.</p>
+    
+    <div class="actions">
+      <button class="btn-primary" (click)="goToHome()">
+        Go to Home
+      </button>
+      <a routerLink="/hotel" class="btn-secondary">
+        Book Another Room
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+<div class="page-container">
+  <button class="back-btn" (click)="goBack()">
+    <fa-icon [icon]="faArrowLeft"></fa-icon>
+    <span>Back to Hotels</span>
+  </button>
+
+  <div class="page-header">
+    <div class="header-content">
+      <h1>Manage Rooms</h1>
+      <p>View and manage hotel rooms</p>
+    </div>
+    <button class="btn-primary" (click)="initializeAddForm()">
+      <fa-icon [icon]="faPlus"></fa-icon>
+      <span>Add Room</span>
+    </button>
+  </div>
+
+  <app-modal 
+    [isOpen]="isEditMode() || isAddMode()" 
+    [title]="isAddMode() ? 'Add New Room' : 'Edit Room'"
+    (close)="cancelEdit()">
+    @if(roomForm) {
+      <form [formGroup]="roomForm" (ngSubmit)="onSubmit()" class="form">
+        <div class="form-group">
+          <label>Room Type</label>
+          <select formControlName="roomTypeId" required>
+            <option value="">Select Room Type</option>
+            @for(type of roomTypes(); track type.id) {
+              <option [value]="type.id">{{ type.typeName }}</option>
+            }
+          </select>
+          @if(roomForm.get('roomTypeId')?.invalid && (roomForm.get('roomTypeId')?.dirty || roomForm.get('roomTypeId')?.touched)) {
+            <div class="error-message">
+              @if(roomForm.get('roomTypeId')?.errors?.['required']) {
+                <span>Room type is required</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Room Number</label>
+          <input 
+            type="text"
+            formControlName="roomNumber" 
+            placeholder="e.g., 101" />
+          @if(roomForm.get('roomNumber')?.invalid && (roomForm.get('roomNumber')?.dirty || roomForm.get('roomNumber')?.touched)) {
+            <div class="error-message">
+              @if(roomForm.get('roomNumber')?.errors?.['required']) {
+                <span>Room number is required</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Price per Night ($)</label>
+          <input 
+            type="number"
+            formControlName="pricePerNight" 
+            min="0" 
+            step="0.01" 
+            placeholder="150.00" />
+          @if(roomForm.get('pricePerNight')?.invalid && (roomForm.get('pricePerNight')?.dirty || roomForm.get('pricePerNight')?.touched)) {
+            <div class="error-message">
+              @if(roomForm.get('pricePerNight')?.errors?.['required']) {
+                <span>Price is required</span>
+              }
+              @if(roomForm.get('pricePerNight')?.errors?.['min']) {
+                <span>Price must be 0 or greater</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select formControlName="status" required>
+            <option value="Available">Available</option>
+            <option value="Occupied">Occupied</option>
+            <option value="UnderMaintenance">Under Maintenance</option>
+          </select>
+          @if(roomForm.get('status')?.invalid && (roomForm.get('status')?.dirty || roomForm.get('status')?.touched)) {
+            <div class="error-message">
+              @if(roomForm.get('status')?.errors?.['required']) {
+                <span>Status is required</span>
+              }
+            </div>
+          }
+        </div>
+
+        
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="!roomForm.valid">
+            {{ isAddMode() ? 'Create Room' : 'Update Room' }}
+          </button>
+        </div>
+      </form>
+    }
+  </app-modal>
+
+  @if(rooms().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🏨</div>
+      <h3>No rooms yet</h3>
+      <p>Start by adding your first room</p>
+      <button class="btn-primary" (click)="initializeAddForm()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+        <span>Add First Room</span>
+      </button>
+    </div>
+  } @else {
+    <div class="grid-layout">
+      @for(room of rooms(); track room.id) {
+        <div class="card">
+          <div class="card-header">
+            <div class="room-number">Room {{ room.roomNumber }}</div>
+            <span class="status-badge" 
+                  [class.status-available]="room.status === 'Available'"
+                  [class.status-booked]="room.status === 'Occupied'"
+                  [class.status-maintenance]="room.status === 'UnderMaintenance'">
+              {{ getStatusLabel(room.status) }}
+            </span>
+          </div>
+          
+          <div class="card-body">
+            <div class="info-item">
+              <span class="label">Type</span>
+              <span class="value">{{ room.roomType.typeName }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Price</span>
+              <span class="value price">${{ room.pricePerNight }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Status</span>
+              <span class="value status-text" 
+                    [class.text-available]="room.status === 'Available'"
+                    [class.text-booked]="room.status === 'Occupied'"
+                    [class.text-maintenance]="room.status === 'UnderMaintenance'">
+                {{ getStatusLabel(room.status) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn-icon btn-edit" (click)="initializeEditForm(room)">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button class="btn-icon btn-delete" (click)="deleteRoom(room)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

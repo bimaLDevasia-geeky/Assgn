@@ -1,0 +1,41 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <div class="brand-icon">
+      <fa-icon [icon]="faHotel"></fa-icon>
+    </div>
+    <div class="brand-text">
+      <h1>Hotel Admin</h1>
+      <span class="brand-subtitle">Management System</span>
+    </div>
+  </div>
+
+  <div class="navbar-actions">
+    <div class="navbar-user" (click)="toggleDropdown()">
+      <div class="user-avatar">
+        <fa-icon [icon]="faUser"></fa-icon>
+      </div>
+      <div class="user-details">
+        <span class="user-name">{{ userName() }}</span>
+        <span class="user-role">Administrator</span>
+      </div>
+      <fa-icon [icon]="faChevronDown" class="dropdown-icon"></fa-icon>
+    </div>
+
+    @if(showDropdown()) {
+      <div class="dropdown-menu">
+        <div class="dropdown-header">
+          <div class="dropdown-avatar">{{ userName().charAt(0) }}</div>
+          <div>
+            <div class="dropdown-name">{{ userName() }}</div>
+            <div class="dropdown-email">{{usermail()}}</div>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" (click)="logout()">
+          <fa-icon [icon]="faSignOutAlt"></fa-icon>
+          <span>Logout</span>
+        </button>
+      </div>
+    }
+  </div>
+</nav>

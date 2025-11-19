@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="title-box">
+    <h2 class="title">{{ destination }}: <span class="count">{{ hotels().length }} hotels found</span></h2>
+
+    <div class="sort-container">
+      <label for="sortOptions">Sort by:</label>
+      <select id="sortOptions" [(ngModel)]="sortOption" (ngModelChange)="onSortChange()">
+        @for(item of list; track item) {
+          <option [value]="item">{{item}}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if(loading()) {
+    <div class="loading">Loading hotels...</div>
+  }
+
+  @if(!loading() && hotels().length === 0) {
+    <div class="no-results">No hotels found. Try adjusting your filters.</div>
+  }
+
+  @if(!loading() && hotels().length > 0) {
+    <div class="hotels-list">
+      @for(hotel of hotels(); track hotel.id) {
+        <div class="hotel-card">
+          <div class="hotel-image">
+            <img [src]="'hotel.png'" [alt]="hotel.name" />
+          </div>
+
+          <div class="hotel-content">
+            <div class="hotel-info">
+              <h3 class="hotel-name">{{ hotel.name }}</h3>
+              
+              @if(hotel.starRating !== null && hotel.starRating > 0) {
+                <div class="stars">
+                  @for(star of [1,2,3,4,5]; track star) {
+                    @if(star <= hotel.starRating) {
+                      <span class="star filled">★</span>
+                    } @else {
+                      <span class="star">☆</span>
+                    }
+                  }
+                </div>
+              }
+
+              <p class="location">{{ hotel.city }}, {{ hotel.country }}</p>
+              
+              <div class="amenities">
+                <span class="amenity"> WiFi</span>
+                <span class="amenity"> Pool</span>
+                <span class="amenity"> Restaurant</span>
+                <span class="amenity"> Parking</span>
+              </div>
+            </div>
+
+            <div class="hotel-pricing">
+                <div>
+                    <div class="rating-badge">
+                <span class="rating-score">{{ hotel.averageRating  }}</span>
+            </div>
+            <span class="rating-label">{{ getRatingLabel(hotel.averageRating) }}</span>
+                </div>
+              
+              
+              <div class="price-section">
+                <p class="price">₹{{ hotel.minPrice }}</p>
+                <p class="price-label">per night</p>
+                <button class="view-details-btn" (click)="viewHotelDetails(hotel.id)">
+                  View Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

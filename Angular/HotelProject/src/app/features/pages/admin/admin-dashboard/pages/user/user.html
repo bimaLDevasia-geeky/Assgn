@@ -1,0 +1,56 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1>Customer Management</h1>
+      <p>View and manage customer information</p>
+    </div>
+  </div>
+
+  @if(loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading customers...</p>
+    </div>
+  } @else {
+    @if(customers().length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">👥</div>
+        <h3>No Customers Yet</h3>
+        <p>No customer records found in the system</p>
+      </div>
+    } @else {
+      <div class="customers-grid">
+        @for(customer of customers(); track customer.id) {
+          <div class="customer-card">
+            <div class="customer-header">
+              <div class="customer-avatar">
+                {{ customer.fullName.charAt(0).toUpperCase() }}
+              </div>
+              <button 
+                class="btn-icon btn-delete" 
+                (click)="deleteCustomer(customer)"
+                title="Delete customer">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </div>
+            <div class="customer-info">
+              <h3 class="customer-name">{{ customer.fullName }}</h3>
+              <div class="customer-detail">
+                <span class="icon">📧</span>
+                <span class="value">{{ customer.email }}</span>
+              </div>
+              <div class="customer-detail">
+                <span class="icon">📞</span>
+                <span class="value">{{ customer.phoneNumber }}</span>
+              </div>
+              <div class="customer-detail">
+                <span class="icon">🆔</span>
+                <span class="value">{{ customer.idProofNumber }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,138 @@
+<div class="container">
+
+    <!-- search section -->
+    <div class="search">
+        <p class="search-text">Your Search</p>
+        <form [formGroup]="searchForm">
+            @if(isEditing()){
+                <div class="destination">
+                    <p class="title-text">Destination</p>
+                    <input 
+                     type="text"
+                     class="destination-input"
+                      placeholder="Destination" 
+                      formControlName="destination" />
+                </div>
+                <div class="dates">
+                    <div>
+                    <p class="title-text">Check-In</p>
+                    <input 
+                    class="date-input"
+                    type="date"
+                    formControlName="checkIn" />  
+                    </div>
+                    
+
+                    <div>
+                    <p class="title-text">Check-Out</p>    
+                    <input class="date-input" type="date" formControlName="checkOut" />
+                    </div>
+
+                </div>
+            }
+            @else {
+                <div class="destination">
+                    <p class="title-text">Destination</p>
+                    <p class="destination-input">{{searchForm.get('destination')?.value}}</p>
+                </div>
+                <div class="dates">
+                    <div>
+                        <p class="title-text">Check-In</p>
+                        <p class="date-input">{{searchForm.get('checkIn')?.value}}</p>
+                    </div>
+                    <div>
+                        <p class="title-text">Check-Out</p>
+                        <p class="date-input">{{searchForm.get('checkOut')?.value}}</p>
+                    </div>
+
+                </div>
+            }
+
+            <div class="buttons">
+                
+                @if(isEditing()){
+                    <div>    
+                <button class="save-button" type="button" (click)="saveSearch()">
+                    Save changes
+                </button>
+                </div>
+                }
+            
+                <div>
+                <button class="change-button" type="button" (click)="sidebarService.changeEditing(isEditing())">
+                Change Search
+                </button>
+                 </div>
+            </div>
+            
+        </form>
+    </div>
+
+
+    <!-- filter section -->
+    <div class="filter-section">
+        <form [formGroup]="filterForm">
+        <p class="filter-title">Filter By Price</p>
+        <p class="price-display">Price Range: ₹{{filterForm.get('minPrice')?.value}} - ₹{{filterForm.get('maxPrice')?.value}}</p>
+        
+        <mat-slider
+            [min]="minPrice"
+            [max]="maxPrice"
+            [step]="100"
+            [discrete]="true"
+        >
+            <input matSliderStartThumb formControlName="minPrice">
+            <input matSliderEndThumb formControlName="maxPrice">
+        </mat-slider>
+
+
+        <div class="star-rating">
+            <p class="rating-title">Star Rating</p>
+            <div class="checkbox-item">
+                <input 
+                    type="checkbox" 
+                    id="five-star" 
+                    [checked]="isStarRatingChecked(5)"
+                    (change)="onStarRatingChange(5, $event)">
+                <label for="five-star">5 stars</label>
+            </div>
+            <div class="checkbox-item">
+                <input 
+                    type="checkbox" 
+                    id="four-star" 
+                    [checked]="isStarRatingChecked(4)"
+                    (change)="onStarRatingChange(4, $event)">
+                <label for="four-star">4 stars</label>
+            </div>
+            <div class="checkbox-item">
+                <input 
+                    type="checkbox" 
+                    id="three-star" 
+                    [checked]="isStarRatingChecked(3)"
+                    (change)="onStarRatingChange(3, $event)">
+                <label for="three-star">3 stars</label>
+            </div>
+            <div class="checkbox-item">
+                <input 
+                    type="checkbox" 
+                    id="two-star" 
+                    [checked]="isStarRatingChecked(2)"
+                    (change)="onStarRatingChange(2, $event)">
+                <label for="two-star">2 stars</label>
+            </div>
+            <div class="checkbox-item">
+                <input 
+                    type="checkbox" 
+                    id="one-star" 
+                    [checked]="isStarRatingChecked(1)"
+                    (change)="onStarRatingChange(1, $event)">
+                <label for="one-star">1 star</label>
+            </div>
+        </div>
+
+
+        <button class="apply-button" type="button" (click)="applyFilters()"> Apply Filters</button>
+        </form>
+    </div>
+
+</div>

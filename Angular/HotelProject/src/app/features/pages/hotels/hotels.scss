@@ -1,0 +1,19 @@
+.container{
+    display: flex;
+}
+
+.sidebar{
+    width: 25%;
+    min-height: 100vh;
+    border-right: 1px solid #ddd;
+    background-color: rgb(249, 250, 251);
+    
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+
+.hotellist{
+    flex: 1;
+    padding: 16px;
+}

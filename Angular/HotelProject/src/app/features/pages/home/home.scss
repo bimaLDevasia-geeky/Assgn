@@ -1,0 +1,150 @@
+p{
+    padding: 0;
+    margin: 0;
+}
+
+.container{
+    height: auto;
+
+}
+
+.image-container{
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home-image{
+   position: absolute;
+    max-height: 100%;
+    width: 100%;
+  
+    object-fit: cover;
+}
+
+.search-box{
+    background-color: white;
+    width: 60%;
+    height: 40%;
+    z-index: 10;
+    border-radius: 1rem;
+    padding: 2rem 4rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    @media (max-width: 900px) {
+        width: 90%;
+        padding: 1rem;
+        height: auto;
+    }
+}
+
+.input-form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.search-input{
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1 1 0;
+    min-width: 0;
+
+    &.Destination {
+        flex: 2 1 0;
+    }
+
+    &.Check-in {
+        flex: 1 1 0;
+    }
+
+    &.Check-out {
+        flex: 1 1 0;
+    }
+    
+    @media (max-width: 768px) {
+        flex: 1 1 100%;
+    }
+}
+
+.input{
+    width: 100%;
+    min-width: 0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.error-message{
+    color: red;
+    font-size: 0.8rem;
+}
+
+.search-button{
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 1rem;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.popularDestination{
+    margin: 4rem 4rem;
+    padding: 0 4rem;
+    height: 40%;
+    @media (max-width: 768px) {
+        padding: 0 1rem;
+    }
+}
+
+.destination-text{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.destinations-list{
+    display: flex;
+    justify-content: space-between;
+}
+
+.destination{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600
+}
+
+.image-holder{
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    
+}
+.destination-image{
+    border-radius: 1rem;
+    object-fit: cover;
+}

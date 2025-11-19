@@ -1,0 +1,90 @@
+<div class="profile-container">
+  @if(isLoading()) {
+    <div class="loading">
+      <p>Loading your profile...</p>
+    </div>
+  } @else if(user()) {
+    <div class="profile-content">
+      <!-- User Details Section -->
+      <div class="user-details-card">
+        <h2 class="section-title">Profile Details</h2>
+        <div class="user-info">
+          <div class="info-item">
+            <span class="info-label">Full Name:</span>
+            <span class="info-value">{{ user()!.fullName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Email:</span>
+            <span class="info-value">{{ user()!.email }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Phone:</span>
+            <span class="info-value">{{ user()!.phoneNumber }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">ID Proof:</span>
+            <span class="info-value">{{ user()!.idProofNumber }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bookings Section -->
+      <div class="bookings-section">
+        <h2 class="section-title">My Bookings</h2>
+        
+        @if(bookings().length === 0) {
+          <div class="no-bookings">
+            <p>You don't have any bookings yet.</p>
+            <a routerLink="/hotel" class="browse-hotels-btn">Browse Hotels</a>
+          </div>
+        } @else {
+          <div class="bookings-list">
+            @for(booking of bookings(); track booking.id) {
+              <div class="booking-card">
+                <div class="booking-header">
+                  <span class="booking-id">Booking #{{ booking.id.substring(0, 8) }}</span>
+                  <span class="booking-status" [ngClass]="getStatusClass(booking.status)">
+                    {{ booking.status }}
+                  </span>
+                </div>
+                
+                <div class="booking-details">
+                  @if(booking.room) {
+                    <div class="booking-info">
+                      <span class="info-label">Room Number:</span>
+                      <span class="info-value">{{ booking.room.roomNumber }}</span>
+                    </div>
+                    <div class="booking-info">
+                      <span class="info-label">Price per Night:</span>
+                      <span class="info-value">₹{{ booking.room.pricePerNight }}</span>
+                    </div>
+                    @if(booking.room.roomType) {
+                      <div class="booking-info">
+                        <span class="info-label">Room Type:</span>
+                        <span class="info-value">{{ booking.room.roomType.name }}</span>
+                      </div>
+                    }
+                  }
+                  
+                  <div class="booking-info">
+                    <span class="info-label">Check-in:</span>
+                    <span class="info-value">{{ formatDate(booking.checkInDate) }}</span>
+                  </div>
+                  <div class="booking-info">
+                    <span class="info-label">Check-out:</span>
+                    <span class="info-value">{{ formatDate(booking.checkOutDate) }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="no-user">
+      <p>Please log in to view your profile.</p>
+      <a routerLink="/login" class="login-btn">Go to Login</a>
+    </div>
+  }
+</div>

@@ -1,0 +1,340 @@
+@import '../../shared-admin-styles.scss';
+
+.employee-container {
+  @extend .page-container;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .page-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+  }
+}
+
+.btn-add {
+  @extend .btn-primary;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  fa-icon {
+    font-size: 0.875rem;
+  }
+}
+
+.employees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  animation: fadeIn 0.4s ease-in;
+}
+
+.employee-card {
+  @extend .card;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .employee-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+
+  .employee-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+
+    fa-icon {
+      font-size: 2rem;
+      color: white;
+    }
+  }
+
+  .employee-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 0 1rem 0;
+  }
+
+  .employee-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .employee-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: $bg-secondary;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: darken($bg-secondary, 2%);
+    }
+
+    .icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $primary-color;
+      font-size: 0.875rem;
+    }
+
+    .value {
+      flex: 1;
+      font-size: 0.875rem;
+      color: $text-secondary;
+      text-align: left;
+      word-break: break-word;
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid $border-light;
+  }
+
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &.btn-edit {
+      background: linear-gradient(135deg, $primary-color, lighten($primary-color, 10%));
+      color: white;
+
+      &:hover {
+        background: linear-gradient(135deg, darken($primary-color, 5%), $primary-color);
+      }
+    }
+
+    &.btn-delete {
+      background: linear-gradient(135deg, $danger-color, lighten($danger-color, 10%));
+      color: white;
+
+      &:hover {
+        background: linear-gradient(135deg, darken($danger-color, 5%), $danger-color);
+      }
+    }
+  }
+}
+
+.empty-state {
+  @extend .empty-state;
+  padding: 4rem 2rem;
+
+  .empty-icon {
+    font-size: 4rem;
+    color: $text-light;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .btn-primary {
+    @extend .btn-primary;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    fa-icon {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Employee Form Styles
+.employee-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    input {
+      padding: 0.75rem 1rem;
+      border: 2px solid $border-light;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      background: white;
+      color: $text-primary;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      &::placeholder {
+        color: $text-light;
+      }
+
+      &.error {
+        border-color: $danger-color;
+
+        &:focus {
+          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+      }
+    }
+
+    .error-message {
+      font-size: 0.75rem;
+      color: $danger-color;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid $border-light;
+
+    button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+
+      &.btn-secondary {
+        background: $bg-secondary;
+        color: $text-secondary;
+
+        &:hover {
+          background: darken($bg-secondary, 5%);
+        }
+      }
+
+      &.btn-primary {
+        @extend .btn-primary;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          transform: none;
+
+          &:hover {
+            transform: none;
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .employees-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+
+    .btn-add {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .employee-form {
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
