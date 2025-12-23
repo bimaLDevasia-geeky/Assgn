@@ -1,0 +1,156 @@
+37. Write a query to display the current date and time.
+
+answer => select cast(getdate() as TIME) as Time, cast(getdate() as Date) as Date;
+
+38. From an 'Orders' table, find all orders placed in the last 24 hours.
+answer => select * from orders where OrderDate >= DATEADD(hour,-24,GETDATE());
+
+39. Display the current UTC date and time.
+answer=> select cast(GETUTCDATE() as DATE) as DATE,format(GETUTCDATE(),'hh:mm:ss tt') as time;
+
+40. Write a query to show the time difference between local time and UTC time.
+answer
+=> SELECT DATEDIFF(HOUR, GETUTCDATE(), GETDATE()) AS DiffInHours;
+
+41. Convert the current date and time to 'Pacific Standard Time'.
+answer
+=> SELECT GETUTCDATE() AT TIME ZONE 'Pacific Standard Time' AS PacificTimeZone;
+
+42. From a 'Flights' table with a 'DepartureTime' column in UTC,
+    convert all departure times to 'Eastern Standard Time'
+
+answer
+=> SELECT DepartureTime AS 'Original_UTC_Time', DepartureTime AT TIME ZONE 'UTC' AT TIME ZONE 'Eastern Standard Time' AS Eastern_Time
+ FROM Flights;
+
+ 43. Add 3 months to the current date.
+answers
+=> select DATEADD(MONTH,+3,getdate());
+
+44.From an 'Employees' table, write a query to calculate each employee's retirement date (65 years from their 'DateOfBirth').
+
+answer=>  select dateadd(YEAR,+65,dateofBirth) as Retirement_DAte from EMPLOYEE;
+
+45. Calculate the number of days between '2023-01-01' and '2023-12-31'.
+
+ answer
+ => select DATEDIFF(DAY,'2023-01-01','2023-12-31');
+
+ 46.  From an 'Orders' table, find the average number of days between order date and ship date.
+ answer
+ =>  Select avg(DATEDIFF(day,orderdate,shipdate)*0.1) as AverageDays from Orders;
+
+ 47. Extract the month number from the date '2023-09-15'.
+ answer
+ =>   SELECT month('2023-09-15') as MONTH;
+
+ 48. From a 'Sales' table, write a query to group total sales by the quarter of the sale date.
+ answer
+ =>  Select DATEPART(QUARTER,salesDate) as SaleQuarter,Sum(sales) as totalsales groupby datepart(Quarter,salesDate);
+
+ 49.Extract the year from the current date.
+
+ answer
+ =>  select year(getdate());
+
+ 50.From an 'Employees' table, find all employees hired in the year 2022.
+ answer
+ =>  select year(getdate());
+
+ 51. Check if '2023-02-30' is a valid date.
+ answer
+ =>  select ISDATE('2023-02-30');
+
+ 52.Write a query to find all rows in a 'UserInputs' table where the 'EnteredDate' column contains invalid dates.
+ answer
+ =>  select * from Userinputs where ISDATE(Entereddate)=0;
+
+ 53.  Find the last day of the current month.
+ answer
+ =>  select EOMONTH(getdate()) as LastDateOftheMonth;
+
+ 54. From a 'Subscriptions' table, write a query to extend all subscription end dates to the end of their respective months.
+ answer
+ =>   update Subscriptions set endate = EOMONTH(enddate);
+
+ 55.  Display the current date and time.
+   select cast(getdate() as date) as currentdate,cast(getdate() as time ) as currentTime;
+
+56. Compare the results of two different methods to get the current timestamp - are they always the same?
+
+answer
+=>   select DATEDIFF(MICROSECOND,getdate(),current_timestamp); 
+   it returns 0 ,ie they both give same results always
+
+57.  Get the current date and time with higher precision than standard methods.
+answer=>select SYSDATETIME() as highDate;
+
+58. Write a query to insert the current high-precision timestamp into a 'Logs' table.
+answer
+=> INSERT INTO Logs (date, LogMessage) VALUES (SYSDATETIME(), 'A new log event happened.');
+
+59. Display the current UTC date and time with high precision.
+answer
+=>   select SYSUTCDATETIME() as precisedateandtime;
+
+60. Calculate the difference in microseconds between the current local time and UTC time.
+answer
+=>   select datediff(MILLISECOND,getdate(),getutcdate());
+
+61. Get the current date, time, and time zone offset.
+
+answer
+=>    select sysdatetimeoffset() as precisedateandtime;
+
+62. From a 'GlobalEvents' table, convert all event times to include time zone offset information.
+answer
+=> SELECT EventTime AS 'Original_Time', EventTime AT TIME ZONE 'UTC' AS 'EventTime_With_Offset' FROM GlobalEvents;
+
+63. Extract the month number from the date '2023-12-25'
+answer
+=> select MONTH('2023-12-25');
+
+64. From a 'Sales' table, find the total sales for each month of the previous year.
+answer
+=> SELECT
+    MONTH(salesdate) AS SalesMonth,
+    SUM(sales) AS TotalSales
+FROM Sales WHERE YEAR(salesdate) = YEAR(GETDATE()) - 1 GROUP BY MONTH(salesdate) ORDER BY SalesMonth;
+
+65. Extract the day of the month from '2023-03-15'.
+answer
+=> select day('2023-03-15');
+
+66. Write a query to find all orders from an 'Orders' table that were placed on the 15th day of any month.
+answer=>
+SELECT * FROM Orders WHERE DAY(OrderDate) = 15; 
+
+67. Get the name of the month for the date '2023-09-01'.
+
+answer
+=> SELECT DATENAME(month, '2023-09-01') AS MonthName;
+
+
+68. From an 'Events' table, write a query to display the day of the week (in words) for each event date
+answer
+=> SELECT
+    EventName,
+    EventDate,
+    DATENAME(weekday, EventDate) AS DayOfWeek
+FROM
+    Events;
+
+
+69.Create a date for Christmas Day 2023.
+answer=>
+SELECT DATEFROMPARTS(2023, 12, 25) AS ChristmasDay;
+
+70. Write a query to convert separate year, month, and day columns from a 'Dates' table into a single DATE column.
+answer=>
+SELECT
+    YearColumn,
+    MonthColumn,
+    DayColumn,
+    DATEFROMPARTS(YearColumn, MonthColumn, DayColumn) AS FullDate
+FROM
+    Dates;

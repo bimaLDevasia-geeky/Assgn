@@ -1,0 +1,40 @@
+Question 1: Find the total number of customers in each country.
+
+=> select country,count(*) as customercount  from Customers group by country;
+
+Question 2: Calculate the average unit price of products in each category.
+
+=> select category,avg(unitprice) from Products group by category;
+
+
+Question 3: Find the maximum and minimum salary in each department.
+
+=> select department,max(salary),min(Salary) from Employees group by Department;
+
+Question 4: Count the total number of products supplied by each supplier.
+
+=> select Supplier,count(*) as noofproducts from Products group by Supplier;
+
+Question 5: Calculate the total value of inventory (UnitsInStock × UnitPrice) for each product category.
+
+=> SELECT Category,SUM(UnitsInStock * UnitPrice) AS TotalInventoryValue FROM Products GROUP BY Category;
+
+Question 6: Find all product categories that have more than 2 products.
+
+=> SELECT Category,COUNT(ProductID) AS ProductCount FROM Products GROUP BY Category HAVING COUNT(*) > 2;
+
+Question 7: List departments where the average salary is greater than $60,000.
+
+=> SELECT Department,AVG(Salary) AS AverageSalary FROM Employees GROUP BY Department HAVING AVG(Salary) > 60000;
+
+Question 8: Show product categories where the average unit price is between $100 and $500.
+
+=> SELECT Category,AVG(UnitPrice) AS AverageUnitPrice FROM Products GROUP BY Category HAVING AVG(UnitPrice) BETWEEN 100 AND 500;
+
+Question 9: Find suppliers who supply products worth more than $10,000 in total inventory value.
+
+=> SELECT Supplier,SUM(UnitsInStock * UnitPrice) AS TotalInventoryValue FROM Products GROUP BY Supplier HAVING SUM(UnitsInStock * UnitPrice) > 10000;
+
+Question 10: List countries that have more than 1 customer and show the customer count.
+
+=> SELECT Country,COUNT(*) AS CustomerCount FROM Customers GROUP BY Country HAVING COUNT(*) > 1;
