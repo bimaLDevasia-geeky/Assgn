@@ -1,0 +1,47 @@
+
+This is the wrong update 
+
+public class emp { 
+public string n; public int a; 
+public double s; 
+public void calc() 
+{ 
+double x = s * 0.1; 
+double y = s + x; 
+} 
+}
+
+
+corrected code
+
+
+//added namespace for avoiding naming conflicts
+namespace
+{
+    // Capitalized the class name for following Convention
+    public class Employee
+    {
+        // added get and set for added encapsulation and made "n" capital
+        public string Name { get; set; }
+
+        // added get and set for added encapsulation and made "a" capital
+        public int Age {get; set; }
+
+        //added get and set for added encapsulation and made "s" capital
+        public double Salary { get; set;}
+
+        //Followed Pascal Cassing
+        public void CalculateIncrementedSalary(){
+
+            //followed Camelcassing for private variable
+            double bonusAmount = Salary * 0.1;
+
+            //followed Camelcassing for private variable
+            double totalSalary = Salary + bonusAmount; 
+
+            //print the output 
+            Console.WriteLine("The New Salary is "+ totalSalary);
+        }
+
+    }
+} 
